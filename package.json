@@ -1,0 +1,74 @@
+{
+  "name": "litescrape-sdk",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for the Litescrape API: validated, concurrent, retrying calls and durable batches.",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && node scripts/build-cjs.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tests/tsconfig.json",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "test:package": "node scripts/smoke-package.mjs",
+    "lint": "prettier --check . && npm run typecheck",
+    "format": "prettier --write .",
+    "check": "npm run lint && npm test",
+    "prepare": "npm run build",
+    "prepack": "npm run build"
+  },
+  "author": "Litescraper <support@litescrape.com>",
+  "license": "MIT",
+  "homepage": "https://litescrape.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/litescrape/litescrape-sdk-ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/litescrape/litescrape-sdk-ts/issues"
+  },
+  "keywords": [
+    "litescrape",
+    "serp",
+    "google",
+    "maps",
+    "reviews",
+    "scraping",
+    "api",
+    "typescript"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "prettier": "^3.9.8",
+    "typescript": "^7.0.2"
+  }
+}

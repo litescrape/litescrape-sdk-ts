@@ -1,0 +1,4518 @@
+[
+  {
+    "mode": "google-play-apps",
+    "path": "/api/google/play/apps",
+    "parameters": [
+      "hl",
+      "gl",
+      "q",
+      "chart",
+      "next_page_token",
+      "section_page_token",
+      "see_more_token",
+      "apps_category",
+      "store_device",
+      "age"
+    ],
+    "cases": [
+      {
+        "label": "defaults",
+        "params": {},
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "hl": "en"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "hl": "zh-TW"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "hl": "en_US"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "hl": "a"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "hl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "hl": "en/us"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: control",
+        "params": {
+          "hl": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: valid",
+        "params": {
+          "gl": "us"
+        },
+        "valid": true
+      },
+      {
+        "label": "gl: valid",
+        "params": {
+          "gl": "GB"
+        },
+        "valid": true
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "gl": "u"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "gl": "usa"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "gl": "11"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: control",
+        "params": {
+          "gl": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": "a"
+        },
+        "valid": true
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": {
+            "$repeat": "a",
+            "count": 2048
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": " coffee "
+        },
+        "valid": true
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": "café & tea"
+        },
+        "valid": true
+      },
+      {
+        "label": "q: invalid",
+        "params": {
+          "q": " "
+        },
+        "valid": false
+      },
+      {
+        "label": "q: invalid",
+        "params": {
+          "q": {
+            "$repeat": "x",
+            "count": 2049
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "q: control",
+        "params": {
+          "q": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart: valid",
+        "params": {
+          "chart": "topselling_paid"
+        },
+        "valid": true
+      },
+      {
+        "label": "chart: valid",
+        "params": {
+          "chart": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": true
+      },
+      {
+        "label": "chart: invalid",
+        "params": {
+          "chart": "../chart"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart: invalid",
+        "params": {
+          "chart": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart: control",
+        "params": {
+          "chart": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: returned",
+        "params": {
+          "next_page_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJhcHBzIiwiY29udGV4dCI6eyJobCI6ImVuIiwiZ2wiOiJ1cyIsInN0b3JlX2RldmljZSI6InBob25lIn0sImtpbmQiOiJwYWdlIiwidG9rZW4iOiJuYXRpdmUtY3Vyc29yIn0"
+        },
+        "valid": true
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "next_page_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "next_page_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "next_page_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "over UTF-8 bound: next_page_token: maximum Unicode query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 2048
+          },
+          "next_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3KzUrDUBSF0VfSSwl0aKLWG1rEFhvbmUlacqU/gtYYn17yHF2DD85in91Qhvhx/p0X5U8zWw+bt+VnHSbpOZVd85T/xdSnTZhe2tl60hYx2w3luS5iFo/ry7htQz/+3jZD/Iqnh/Fu2uplsgjLpq2Wh8V9zszMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMfIW+S/tVn97D4bItYhZPebcNr2lelDd1+D7UKWbx+NhtKkmSJEmSJEmSJEmSJEmSJEmSJEmSJEnS1bcqp//Wsmwk+L4AAA=="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "section_page_token: returned",
+        "params": {
+          "section_page_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJhcHBzIiwiY29udGV4dCI6eyJobCI6ImVuIiwiZ2wiOiJ1cyIsInN0b3JlX2RldmljZSI6InBob25lIn0sImtpbmQiOiJzZWN0aW9uIiwidG9rZW4iOiJuYXRpdmUtY3Vyc29yIn0"
+        },
+        "valid": true
+      },
+      {
+        "label": "section_page_token: malformed",
+        "params": {
+          "section_page_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "section_page_token: malformed",
+        "params": {
+          "section_page_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "section_page_token: malformed",
+        "params": {
+          "section_page_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "over UTF-8 bound: section_page_token: maximum Unicode query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 2048
+          },
+          "section_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3KzU7CUBSF0VfSa9OEoVTF24DGkoBlZlsI15SfRBHr0xuegzX4krOyz3ooQ/w8/E6L8qedLIb6vTo2IUuvqdy2z+O/mM6pDqNTN1lkXRHz9VAemiLmcbc4XbZVOF9+b9shfsX94+Vuu+VbNgtV2y2rfvYwZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmvkLfp838nD5Cf1oVMY/7l76+q45NyNK0KG+a8N03KeZx97Stl5IkSZIkSZIkSZIkSZIkSZIkSZIkSZKkq29ejv4BIvnur/y+AAA="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "see_more_token: returned",
+        "params": {
+          "see_more_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJhcHBzIiwiY29udGV4dCI6eyJobCI6ImVuIiwiZ2wiOiJ1cyIsInN0b3JlX2RldmljZSI6InBob25lIn0sImtpbmQiOiJjb2xsZWN0aW9uIiwidG9rZW4iOiJuYXRpdmUtY3Vyc29yIn0"
+        },
+        "valid": true
+      },
+      {
+        "label": "see_more_token: malformed",
+        "params": {
+          "see_more_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "see_more_token: malformed",
+        "params": {
+          "see_more_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "see_more_token: malformed",
+        "params": {
+          "see_more_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "over UTF-8 bound: see_more_token: maximum Unicode query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 2048
+          },
+          "see_more_token": {
+            "$gzip": "H4sIAAAAAAAACu3KzU7CUBSF0VfSa0PCUKribUBjScAysy2Ga4qQKD/16U2fgzX4krOyz6YvQvzaX2Z5cWqmy756Lw91yNJrKrbN8+QvpnOqwvjYTpdZm8fRpi/2dR5Hcbc8Dts6nIff26aPP/H7cbibdvWWzUPZtKuymz9MmJmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZr9D36XNxTh+hO67zOIq7l1M9vXTVXXmoQ5ZmeXFTh9+uTsP2tK1WkiRJkiRJkiRJkiRJkiRJkiRJkiRJkqSrb1GM/wH7+HAHAL8AAA=="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "apps_category: valid",
+        "params": {
+          "apps_category": "MEDICAL"
+        },
+        "valid": true
+      },
+      {
+        "label": "apps_category: valid",
+        "params": {
+          "apps_category": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": true
+      },
+      {
+        "label": "apps_category: invalid",
+        "params": {
+          "apps_category": "../category"
+        },
+        "valid": false
+      },
+      {
+        "label": "apps_category: invalid",
+        "params": {
+          "apps_category": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "apps_category: control",
+        "params": {
+          "apps_category": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "store_device: phone",
+        "params": {
+          "store_device": "phone"
+        },
+        "valid": true
+      },
+      {
+        "label": "store_device: tablet",
+        "params": {
+          "store_device": "tablet"
+        },
+        "valid": true
+      },
+      {
+        "label": "store_device: tv",
+        "params": {
+          "store_device": "tv"
+        },
+        "valid": true
+      },
+      {
+        "label": "store_device: chromebook",
+        "params": {
+          "store_device": "chromebook"
+        },
+        "valid": true
+      },
+      {
+        "label": "store_device: watch",
+        "params": {
+          "store_device": "watch"
+        },
+        "valid": true
+      },
+      {
+        "label": "store_device: car",
+        "params": {
+          "store_device": "car"
+        },
+        "valid": true
+      },
+      {
+        "label": "store_device: unknown",
+        "params": {
+          "store_device": "unsupported"
+        },
+        "valid": false
+      },
+      {
+        "label": "store_device: control",
+        "params": {
+          "store_device": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "age: AGE_RANGE1",
+        "params": {
+          "apps_category": "FAMILY",
+          "age": "AGE_RANGE1"
+        },
+        "valid": true
+      },
+      {
+        "label": "age: AGE_RANGE2",
+        "params": {
+          "apps_category": "FAMILY",
+          "age": "AGE_RANGE2"
+        },
+        "valid": true
+      },
+      {
+        "label": "age: AGE_RANGE3",
+        "params": {
+          "apps_category": "FAMILY",
+          "age": "AGE_RANGE3"
+        },
+        "valid": true
+      },
+      {
+        "label": "age: unknown",
+        "params": {
+          "apps_category": "FAMILY",
+          "age": "unsupported"
+        },
+        "valid": false
+      },
+      {
+        "label": "age: control",
+        "params": {
+          "apps_category": "FAMILY",
+          "age": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "unknown parameter",
+        "params": {
+          "unknown": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "chart": "value",
+          "next_page_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "chart": "value",
+          "section_page_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "chart": "value",
+          "see_more_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "next_page_token": "value",
+          "section_page_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "next_page_token": "value",
+          "see_more_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "section_page_token": "value",
+          "see_more_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "query/category conflict",
+        "params": {
+          "q": "coffee",
+          "apps_category": "MEDICAL"
+        },
+        "valid": false
+      },
+      {
+        "label": "query/device conflict",
+        "params": {
+          "q": "coffee",
+          "store_device": "phone"
+        },
+        "valid": false
+      },
+      {
+        "label": "category/device conflict",
+        "params": {
+          "apps_category": "MEDICAL",
+          "store_device": "phone"
+        },
+        "valid": false
+      },
+      {
+        "label": "age requires category",
+        "params": {
+          "age": "AGE_RANGE1"
+        },
+        "valid": false
+      },
+      {
+        "label": "q: UTF-8 byte boundary 2048",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "q: UTF-8 byte boundary 2052",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 513
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "q: UTF-8 mixed byte overflow",
+        "params": {
+          "q": {
+            "$gzip": "H4sIAAAAAAAACktMHAWjYBSMglEwCkbBCAOHVwIAi7nBSAEIAAA="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "q: UTF-8 accented byte boundary",
+        "params": {
+          "q": {
+            "$repeat": "é",
+            "count": 1024
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "chart excludes query",
+        "params": {
+          "q": "Dune",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device tablet topselling_free",
+        "params": {
+          "store_device": "tablet",
+          "chart": "topselling_free"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device tablet topselling_paid",
+        "params": {
+          "store_device": "tablet",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device tv topselling_free",
+        "params": {
+          "store_device": "tv",
+          "chart": "topselling_free"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device tv topselling_paid",
+        "params": {
+          "store_device": "tv",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device chromebook topselling_free",
+        "params": {
+          "store_device": "chromebook",
+          "chart": "topselling_free"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device chromebook topselling_paid",
+        "params": {
+          "store_device": "chromebook",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device watch topselling_free",
+        "params": {
+          "store_device": "watch",
+          "chart": "topselling_free"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device watch topselling_paid",
+        "params": {
+          "store_device": "watch",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device car topselling_free",
+        "params": {
+          "store_device": "car",
+          "chart": "topselling_free"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device car topselling_paid",
+        "params": {
+          "store_device": "car",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: maximum UTF-8 query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          },
+          "next_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3aUUrDUBBA0S3pIxT6aaLWF1rEFlPTP5NU+iS2gtYYVy9Zhng+DsxlZgmzH8sQX0/fy6L8ahfVWD+t35uQpftUHtq7/CemIdVhfu4WVdYVcbYfy1NTxFl8q87TbheG6fayHeNHPN5Mc9ttH7JVWLfddt2vrnOttdZaa6211lprrbXWWmuttdZa/7m+Si+bIT2H/ryb/gSO+WEXHtOyKC+a8Nk3afoduD3UWwAAAAAAAAAAAAAAAAAAAP69TTn/BQAsvF/4XgAA"
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "section_page_token: maximum UTF-8 query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          },
+          "section_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3aUUrDQBiF0S3pGAp9tFHrhFaxhdT0zSSVjsRW0Fjj6iW4CvE8HJiPf5Zwd0MR4svxa5EXn828HKrH1VsdsnSfin1zO/uO6ZSqMO3beZm1eZzshuJY53ESX8t+vG3Dafx73gzxPR6ux3fTbh6yZVg17WbVLa9mWmuttdZaa6211lprrbXWWmuttf5zfZme16f0FLp+O+4EDndddfG7KVjkxVkdPro6jfuBm321AQAAAAAAAAAAAAAAAAAA4N9bF9MfNuezHfxeAAA="
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "see_more_token: maximum UTF-8 query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          },
+          "see_more_token": {
+            "$gzip": "H4sIAAAAAAAACu3aXUrDUBCA0S3pNRT6aKPWG1rFFhrTN5NUeiVaQfsTVy/RVYjn4cB8zCxhNn0R4svuNMuLQzNd9dXj4r0OWbpPxba5nXzFdExVGO/b6Spr8zja9MWuzuMovq72w24djsPtedPHj/h2PcxNWz5k87Bo2nLRza8mWmuttdZaa6211lprrbXWWmuttf5zfZmel8f0FLr9+udP4O5QT09ddfH7VzDLi7M6fHZ1GnY326oEAAAAAAAAAAAAAAAAAADg31sW42/wR8nkAF8AAA=="
+          }
+        },
+        "valid": true
+      }
+    ]
+  },
+  {
+    "mode": "google-play-games",
+    "path": "/api/google/play/games",
+    "parameters": [
+      "hl",
+      "gl",
+      "q",
+      "chart",
+      "next_page_token",
+      "section_page_token",
+      "see_more_token",
+      "games_category",
+      "store_device"
+    ],
+    "cases": [
+      {
+        "label": "defaults",
+        "params": {},
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "hl": "en"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "hl": "zh-TW"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "hl": "en_US"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "hl": "a"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "hl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "hl": "en/us"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: control",
+        "params": {
+          "hl": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: valid",
+        "params": {
+          "gl": "us"
+        },
+        "valid": true
+      },
+      {
+        "label": "gl: valid",
+        "params": {
+          "gl": "GB"
+        },
+        "valid": true
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "gl": "u"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "gl": "usa"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "gl": "11"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: control",
+        "params": {
+          "gl": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": "a"
+        },
+        "valid": true
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": {
+            "$repeat": "a",
+            "count": 2048
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": " coffee "
+        },
+        "valid": true
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": "café & tea"
+        },
+        "valid": true
+      },
+      {
+        "label": "q: invalid",
+        "params": {
+          "q": " "
+        },
+        "valid": false
+      },
+      {
+        "label": "q: invalid",
+        "params": {
+          "q": {
+            "$repeat": "x",
+            "count": 2049
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "q: control",
+        "params": {
+          "q": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart: valid",
+        "params": {
+          "chart": "topselling_paid"
+        },
+        "valid": true
+      },
+      {
+        "label": "chart: valid",
+        "params": {
+          "chart": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": true
+      },
+      {
+        "label": "chart: invalid",
+        "params": {
+          "chart": "../chart"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart: invalid",
+        "params": {
+          "chart": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart: control",
+        "params": {
+          "chart": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: returned",
+        "params": {
+          "next_page_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJnYW1lcyIsImNvbnRleHQiOnsiaGwiOiJlbiIsImdsIjoidXMiLCJzdG9yZV9kZXZpY2UiOiJwaG9uZSJ9LCJraW5kIjoicGFnZSIsInRva2VuIjoibmF0aXZlLWN1cnNvciJ9"
+        },
+        "valid": true
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "next_page_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "next_page_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "next_page_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "over UTF-8 bound: next_page_token: maximum Unicode query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 2048
+          },
+          "next_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3JwU7CUBBA0V9SwsalQS2vQRqIoS07SyE+KIVYQ+nfm34HZ3Ezc2b2QzoJx8t9MUtvu2QzlMX6Wk2mMYtpW+bPzW4IXTgvb1W7bvbzVczaLn4n/fhvqjj+6i4cL7EuPuNilt7HvZhvTtnb8jTO7ddrz8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM/IgO7VMXzn/X6ryKWUz7Mq+bEPtYJy+/23w63n7K/EOSJEmSJEmSJEmSJEmSJEmSJEmSJEmS9PC9x8PqH1n2/fD6vgAA"
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "section_page_token: returned",
+        "params": {
+          "section_page_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJnYW1lcyIsImNvbnRleHQiOnsiaGwiOiJlbiIsImdsIjoidXMiLCJzdG9yZV9kZXZpY2UiOiJwaG9uZSJ9LCJraW5kIjoic2VjdGlvbiIsInRva2VuIjoibmF0aXZlLWN1cnNvciJ9"
+        },
+        "valid": true
+      },
+      {
+        "label": "section_page_token: malformed",
+        "params": {
+          "section_page_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "section_page_token: malformed",
+        "params": {
+          "section_page_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "section_page_token: malformed",
+        "params": {
+          "section_page_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "over UTF-8 bound: section_page_token: maximum Unicode query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 2048
+          },
+          "section_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3JwU7CUBBA0V9CwoalQYXXYJsSQws7Chgf0EKsUvDrTb+Ds7iZOTP7ezIMh/NtPkmu2+nyvioXl2o4illMmlXxdNreQxvq9Fo1i9N+lsesaeNm2vX/UxX7364Nh3Pcle9xPklu/V7OlsfsJT32c/3x3DEzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz+iQzNoQ/1zqeo8ZjH5WxfpYFOMf0Ps4m46/l4Xo/7+tSreJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEkP32v8zP8BMwViz/6+AAA="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "see_more_token: returned",
+        "params": {
+          "see_more_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJnYW1lcyIsImNvbnRleHQiOnsiaGwiOiJlbiIsImdsIjoidXMiLCJzdG9yZV9kZXZpY2UiOiJwaG9uZSJ9LCJraW5kIjoiY29sbGVjdGlvbiIsInRva2VuIjoibmF0aXZlLWN1cnNvciJ9"
+        },
+        "valid": true
+      },
+      {
+        "label": "see_more_token: malformed",
+        "params": {
+          "see_more_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "see_more_token: malformed",
+        "params": {
+          "see_more_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "see_more_token: malformed",
+        "params": {
+          "see_more_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "over UTF-8 bound: see_more_token: maximum Unicode query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 2048
+          },
+          "see_more_token": {
+            "$gzip": "H4sIAAAAAAAACu3JzU7CUBSF0VdCwoShQS23wTYQQykzSiHeAoVY5eftTZ+DNfhyzsrePdJhaM732SS9bpPlo1wtLtVwFPOYtmXxctw+QhdO2bVqF8fddB7ztoub5Nbvxyr2W92F5hzr1WecTdJ7/6+my0P+lh36u/56vTEzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz+jQzvowun3Up3mMY9pUw3v3brIBpti/BfiLdbJ+GddjPrtuyw+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJElP33vcz/8BgmsLyQK/AAA="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "games_category: valid",
+        "params": {
+          "games_category": "MEDICAL"
+        },
+        "valid": true
+      },
+      {
+        "label": "games_category: valid",
+        "params": {
+          "games_category": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": true
+      },
+      {
+        "label": "games_category: invalid",
+        "params": {
+          "games_category": "../category"
+        },
+        "valid": false
+      },
+      {
+        "label": "games_category: invalid",
+        "params": {
+          "games_category": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "games_category: control",
+        "params": {
+          "games_category": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "store_device: phone",
+        "params": {
+          "store_device": "phone"
+        },
+        "valid": true
+      },
+      {
+        "label": "store_device: tablet",
+        "params": {
+          "store_device": "tablet"
+        },
+        "valid": true
+      },
+      {
+        "label": "store_device: tv",
+        "params": {
+          "store_device": "tv"
+        },
+        "valid": true
+      },
+      {
+        "label": "store_device: chromebook",
+        "params": {
+          "store_device": "chromebook"
+        },
+        "valid": true
+      },
+      {
+        "label": "store_device: watch",
+        "params": {
+          "store_device": "watch"
+        },
+        "valid": true
+      },
+      {
+        "label": "store_device: windows",
+        "params": {
+          "store_device": "windows"
+        },
+        "valid": true
+      },
+      {
+        "label": "store_device: unknown",
+        "params": {
+          "store_device": "unsupported"
+        },
+        "valid": false
+      },
+      {
+        "label": "store_device: control",
+        "params": {
+          "store_device": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "unknown parameter",
+        "params": {
+          "unknown": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "chart": "value",
+          "next_page_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "chart": "value",
+          "section_page_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "chart": "value",
+          "see_more_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "next_page_token": "value",
+          "section_page_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "next_page_token": "value",
+          "see_more_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "section_page_token": "value",
+          "see_more_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "query/category conflict",
+        "params": {
+          "q": "coffee",
+          "games_category": "MEDICAL"
+        },
+        "valid": false
+      },
+      {
+        "label": "query/device conflict",
+        "params": {
+          "q": "coffee",
+          "store_device": "phone"
+        },
+        "valid": false
+      },
+      {
+        "label": "category/device conflict",
+        "params": {
+          "games_category": "MEDICAL",
+          "store_device": "phone"
+        },
+        "valid": false
+      },
+      {
+        "label": "q: UTF-8 byte boundary 2048",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "q: UTF-8 byte boundary 2052",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 513
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "q: UTF-8 mixed byte overflow",
+        "params": {
+          "q": {
+            "$gzip": "H4sIAAAAAAAACktMHAWjYBSMglEwCkbBCAOHVwIAi7nBSAEIAAA="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "q: UTF-8 accented byte boundary",
+        "params": {
+          "q": {
+            "$repeat": "é",
+            "count": 1024
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "chart excludes query",
+        "params": {
+          "q": "Dune",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device tablet topselling_free",
+        "params": {
+          "store_device": "tablet",
+          "chart": "topselling_free"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device tablet topselling_paid",
+        "params": {
+          "store_device": "tablet",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device tv topselling_free",
+        "params": {
+          "store_device": "tv",
+          "chart": "topselling_free"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device tv topselling_paid",
+        "params": {
+          "store_device": "tv",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device chromebook topselling_free",
+        "params": {
+          "store_device": "chromebook",
+          "chart": "topselling_free"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device chromebook topselling_paid",
+        "params": {
+          "store_device": "chromebook",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device watch topselling_free",
+        "params": {
+          "store_device": "watch",
+          "chart": "topselling_free"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device watch topselling_paid",
+        "params": {
+          "store_device": "watch",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device windows topselling_free",
+        "params": {
+          "store_device": "windows",
+          "chart": "topselling_free"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes device windows topselling_paid",
+        "params": {
+          "store_device": "windows",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: maximum UTF-8 query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          },
+          "next_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3aQU7CUBCA4SspcePSoJbXIKTE0JadpRAftIVYQ+H2pt7C+C2+zPyZK8zulk7C4XSdT9PLNlnfymJ1riYPcRnTrszvm+0t9KFdXKpu1exmWVx2ffxIhvHeVHG81X04nGJdvMX5NL2OezFbH5fPi+M4N+9Pg9Zaa6211lprrbXWWmuttdZaa63/Xofurg/t97lqs/FPYCjzuglxiHXy+LXJf38LPsv8FQAAAAAAAAAAAAAAAAAAgH/vJe6zH5ctECj6XgAA"
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "section_page_token: maximum UTF-8 query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          },
+          "section_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3aTU7CUBSA0S0hccLQoMJrsKTEUNoZBYwP2kKs8uPqTd2F8QxO7v1yt3B3t2QY9sfrbJycN5PlrVgtTtXwPs5j0hb5Xb25hS406blqF/VumsV528X15NLf6yr2t20X9se4Xb3E2Ti59vtqujzMH9NDP8vXh4vWWmuttdZaa6211lprrbXWWmut/16HdtCF5vNUNVn/J/Bd5ulgnY++QrzE7WT0Uea//wXvRf4MAAAAAAAAAAAAAAAAAADAv/cU37IfkJH0u/5eAAA="
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "see_more_token: maximum UTF-8 query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          },
+          "see_more_token": {
+            "$gzip": "H4sIAAAAAAAACu3aTU7CUBSA0S0hccLQoMJrsKTE0NIZ5Sc+oIVYhbJ7U3dhPIOTe7/cLdzdPRmGw7mbjZPrZrK8r4rFpRo+xnlMmlX+cNrcQxvq9Fo1i9NumsV508b15NbfT1Xsb9s2HM5xW7zF2Tjp+r2YLo/z5/TYz/L96aa11lprrbXWWmuttdZaa6211lrrv9ehGbSh/rpUddb/CRyqYdeWeTpY56PvEG9xOxl9lvnvj8HHKn8FAAAAAAAAAAAAAAAAAADg33uJ++wH/FW8HAJfAAA="
+          }
+        },
+        "valid": true
+      }
+    ]
+  },
+  {
+    "mode": "google-play-books",
+    "path": "/api/google/play/books",
+    "parameters": [
+      "hl",
+      "gl",
+      "q",
+      "chart",
+      "next_page_token",
+      "section_page_token",
+      "see_more_token",
+      "books_category",
+      "age",
+      "price"
+    ],
+    "cases": [
+      {
+        "label": "defaults",
+        "params": {},
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "hl": "en"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "hl": "zh-TW"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "hl": "en_US"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "hl": "a"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "hl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "hl": "en/us"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: control",
+        "params": {
+          "hl": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: valid",
+        "params": {
+          "gl": "us"
+        },
+        "valid": true
+      },
+      {
+        "label": "gl: valid",
+        "params": {
+          "gl": "GB"
+        },
+        "valid": true
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "gl": "u"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "gl": "usa"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "gl": "11"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: control",
+        "params": {
+          "gl": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": "a"
+        },
+        "valid": true
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": {
+            "$repeat": "a",
+            "count": 2048
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": " coffee "
+        },
+        "valid": true
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": "café & tea"
+        },
+        "valid": true
+      },
+      {
+        "label": "q: invalid",
+        "params": {
+          "q": " "
+        },
+        "valid": false
+      },
+      {
+        "label": "q: invalid",
+        "params": {
+          "q": {
+            "$repeat": "x",
+            "count": 2049
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "q: control",
+        "params": {
+          "q": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart: valid",
+        "params": {
+          "chart": "topselling_paid"
+        },
+        "valid": true
+      },
+      {
+        "label": "chart: valid",
+        "params": {
+          "chart": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": true
+      },
+      {
+        "label": "chart: invalid",
+        "params": {
+          "chart": "../chart"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart: invalid",
+        "params": {
+          "chart": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart: control",
+        "params": {
+          "chart": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: returned",
+        "params": {
+          "next_page_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJib29rcyIsImNvbnRleHQiOnsiaGwiOiJlbiIsImdsIjoidXMifSwia2luZCI6InBhZ2UiLCJ0b2tlbiI6Im5hdGl2ZS1jdXJzb3IifQ"
+        },
+        "valid": true
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "next_page_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "next_page_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "next_page_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "over UTF-8 bound: next_page_token: maximum Unicode query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 2048
+          },
+          "next_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3Jy07CYBCA0VcyhA1Lg1r+BmlKDAV2lmIc7qGGwtubPgdn8WXmzGwf+SDtzvfpOL9tssVjtZxf6sEwisijHoyum0dq03F2q0/zw3ZSRnFq4zvr+v+hjv7XtGl3jmb5GdNxfu/35WSxL95m+36uv147ZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmbmZ3Q6vbTp+Hepj2UUkXerqjmk6KLJRtd1Nexvv6vqQ5IkSZIkSZIkSZIkSZIkSZIkSZIkSZL09L3HT/kPoysBq/q+AAA="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "section_page_token: returned",
+        "params": {
+          "section_page_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJib29rcyIsImNvbnRleHQiOnsiaGwiOiJlbiIsImdsIjoidXMifSwia2luZCI6InNlY3Rpb24iLCJ0b2tlbiI6Im5hdGl2ZS1jdXJzb3IifQ"
+        },
+        "valid": true
+      },
+      {
+        "label": "section_page_token: malformed",
+        "params": {
+          "section_page_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "section_page_token: malformed",
+        "params": {
+          "section_page_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "section_page_token: malformed",
+        "params": {
+          "section_page_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "over UTF-8 bound: section_page_token: maximum Unicode query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 2048
+          },
+          "section_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3Jy07CYBCA0VcihE2XBhX+BmkghgI7ChiHe6gC9elNn4Oz+DJzZrZN3k2782PUz2/rwaxZzKeXqtuLIvKoutl13aQ6Hce36jQ9bIeTKE51rAb39n+oov1t6rQ7x2b+EaN+/mj3+XC2L17H+3YuP1/uzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz+h06tTp+HOpjpMoIv9bluPOqsx+U9xjM8iuy7LX3r8X5bskSZIkSZIkSZIkSZIkSZIkSZIkSZIk6el7i6/JP15zWOf+vgAA"
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "see_more_token: returned",
+        "params": {
+          "see_more_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJib29rcyIsImNvbnRleHQiOnsiaGwiOiJlbiIsImdsIjoidXMifSwia2luZCI6ImNvbGxlY3Rpb24iLCJ0b2tlbiI6Im5hdGl2ZS1jdXJzb3IifQ"
+        },
+        "valid": true
+      },
+      {
+        "label": "see_more_token: malformed",
+        "params": {
+          "see_more_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "see_more_token: malformed",
+        "params": {
+          "see_more_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "see_more_token: malformed",
+        "params": {
+          "see_more_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "over UTF-8 bound: see_more_token: maximum Unicode query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 2048
+          },
+          "see_more_token": {
+            "$gzip": "H4sIAAAAAAAACu3Jy2rCYBSF0VeS4MRhsa3+wSYoxagzoxaPd0zr5e1LnsM1+DhnsTfPPEu782PUz2+rwfQ5n00uddaNMvKos9519UxNOha3+jQ5bIbjKE9NLAf3dj/U0W7rJu3OsZ59xaifP9p/Npzuy/di397F99udmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZn5FZ1OnSYdfy/1cRxl5Ls6ezSLqugsq95finusB73rouq223ZefUqSJEmSJEmSJEmSJEmSJEmSJEmSJEmSXr6P+Bn/Az0mJ0ACvwAA"
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "books_category: valid",
+        "params": {
+          "books_category": "MEDICAL"
+        },
+        "valid": true
+      },
+      {
+        "label": "books_category: valid",
+        "params": {
+          "books_category": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": true
+      },
+      {
+        "label": "books_category: invalid",
+        "params": {
+          "books_category": "../category"
+        },
+        "valid": false
+      },
+      {
+        "label": "books_category: invalid",
+        "params": {
+          "books_category": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "books_category: control",
+        "params": {
+          "books_category": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "age: AGE_RANGE1",
+        "params": {
+          "books_category": "coll_1689",
+          "age": "AGE_RANGE1"
+        },
+        "valid": true
+      },
+      {
+        "label": "age: AGE_RANGE2",
+        "params": {
+          "books_category": "coll_1689",
+          "age": "AGE_RANGE2"
+        },
+        "valid": true
+      },
+      {
+        "label": "age: AGE_RANGE3",
+        "params": {
+          "books_category": "coll_1689",
+          "age": "AGE_RANGE3"
+        },
+        "valid": true
+      },
+      {
+        "label": "age: unknown",
+        "params": {
+          "books_category": "coll_1689",
+          "age": "unsupported"
+        },
+        "valid": false
+      },
+      {
+        "label": "age: control",
+        "params": {
+          "books_category": "coll_1689",
+          "age": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "price: valid 1",
+        "params": {
+          "q": "Dune",
+          "price": "1"
+        },
+        "valid": true
+      },
+      {
+        "label": "price: valid 2",
+        "params": {
+          "q": "Dune",
+          "price": "2"
+        },
+        "valid": true
+      },
+      {
+        "label": "price: valid +1",
+        "params": {
+          "q": "Dune",
+          "price": "+1"
+        },
+        "valid": true
+      },
+      {
+        "label": "price: valid 01",
+        "params": {
+          "q": "Dune",
+          "price": "01"
+        },
+        "valid": true
+      },
+      {
+        "label": "price: invalid 0",
+        "params": {
+          "q": "Dune",
+          "price": "0"
+        },
+        "valid": false
+      },
+      {
+        "label": "price: invalid 3",
+        "params": {
+          "q": "Dune",
+          "price": "3"
+        },
+        "valid": false
+      },
+      {
+        "label": "price: invalid 1.0",
+        "params": {
+          "q": "Dune",
+          "price": "1.0"
+        },
+        "valid": false
+      },
+      {
+        "label": "price: invalid 1e1",
+        "params": {
+          "q": "Dune",
+          "price": "1e1"
+        },
+        "valid": false
+      },
+      {
+        "label": "price: invalid yes",
+        "params": {
+          "q": "Dune",
+          "price": "yes"
+        },
+        "valid": false
+      },
+      {
+        "label": "price: invalid 1_0",
+        "params": {
+          "q": "Dune",
+          "price": "1_0"
+        },
+        "valid": false
+      },
+      {
+        "label": "price: control",
+        "params": {
+          "q": "Dune",
+          "price": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "unknown parameter",
+        "params": {
+          "unknown": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "chart": "value",
+          "next_page_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "chart": "value",
+          "section_page_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "chart": "value",
+          "see_more_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "next_page_token": "value",
+          "section_page_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "next_page_token": "value",
+          "see_more_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "section_page_token": "value",
+          "see_more_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "query/category conflict",
+        "params": {
+          "q": "coffee",
+          "books_category": "MEDICAL"
+        },
+        "valid": false
+      },
+      {
+        "label": "age requires category",
+        "params": {
+          "age": "AGE_RANGE1"
+        },
+        "valid": false
+      },
+      {
+        "label": "price requires query",
+        "params": {
+          "price": "1"
+        },
+        "valid": false
+      },
+      {
+        "label": "q: UTF-8 byte boundary 2048",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "q: UTF-8 byte boundary 2052",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 513
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "q: UTF-8 mixed byte overflow",
+        "params": {
+          "q": {
+            "$gzip": "H4sIAAAAAAAACktMHAWjYBSMglEwCkbBCAOHVwIAi7nBSAEIAAA="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "q: UTF-8 accented byte boundary",
+        "params": {
+          "q": {
+            "$repeat": "é",
+            "count": 1024
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "chart excludes query",
+        "params": {
+          "q": "Dune",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart excludes price query",
+        "params": {
+          "q": "Dune",
+          "price": 1,
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: maximum UTF-8 query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          },
+          "next_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3aQU7CUBCA4SuZxg1Lg1peg5ASQ1t2lmJ8UAqhhsLtTb2F8Vt8mfkzV5jdPUvC/nSbT7PrNl3fq3J1rpPHuIxZrJPJZXsPfTgurnW3anezPC67Pn6kw3hv6zjemj7sT7Ep3+J8mt3GvZytD8vnxWGcm/enQWuttdZaa6211lprrbXWWmuttdZ/r0P30Ifj97k+5uOfwFAVTRviEJt0ctkUv78FX1XxCgAAAAAAAAAAAAAAAAAAwL/3Ej/zH4HYAXT6XgAA"
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "section_page_token: maximum UTF-8 query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          },
+          "section_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3aQU7CUBCA4SuRxk2XBrW8BksghgI7Chgf0EKoAvX0pt7C+C2+zPyZK8yuy5OwP93Hw/y6yebdcjE7V8lDnMQ8Vkl62XShDXVxrZrZcTeaxknTxnV26+/HKva3bRv2p7hdvMbxML/3+2I0P0yeikM/V2+PN6211lprrbXWWmuttdZaa6211lr/vQ7NoA3157mqp/2fwPeqLAbrMv0K8Ra3WXpZlb//BR/L8gUAAAAAAAAAAAAAAAAAAIB/7zm+T38AJxaNTP5eAAA="
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "see_more_token: maximum UTF-8 query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          },
+          "see_more_token": {
+            "$gzip": "H4sIAAAAAAAACu3aTU7CUBSA0S2RxkmHBhVeg5ASQ6EzChgeP4VQpXT3pu7CeAYn9365W7i7LkvC4fKYDLP7ZrToVsv5tUqe4ixmsUrS26YLTThP71U9P+3GeZzVTVyP2v5+qmJ/2zbhcInb5XucDLNHvy/Hi+PsZXrsZ/nx3GqttdZaa6211lprrbXWWmuttdb673WoB004f12rc97/CRyq5NGUxXSwLtLvENu4HaW3svj9MdivijcAAAAAAAAAAAAAAAAAAAD+vdf4mf8A2otHpQJfAAA="
+          }
+        },
+        "valid": true
+      }
+    ]
+  },
+  {
+    "mode": "google-play-movies",
+    "path": "/api/google/play/movies",
+    "parameters": [
+      "hl",
+      "gl",
+      "q",
+      "chart",
+      "next_page_token",
+      "section_page_token",
+      "see_more_token",
+      "movies_category",
+      "age"
+    ],
+    "cases": [
+      {
+        "label": "defaults",
+        "params": {},
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "hl": "en"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "hl": "zh-TW"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "hl": "en_US"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "hl": "a"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "hl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "hl": "en/us"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: control",
+        "params": {
+          "hl": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: valid",
+        "params": {
+          "gl": "us"
+        },
+        "valid": true
+      },
+      {
+        "label": "gl: valid",
+        "params": {
+          "gl": "GB"
+        },
+        "valid": true
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "gl": "u"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "gl": "usa"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "gl": "11"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: control",
+        "params": {
+          "gl": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": "a"
+        },
+        "valid": true
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": {
+            "$repeat": "a",
+            "count": 2048
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": " coffee "
+        },
+        "valid": true
+      },
+      {
+        "label": "q: valid",
+        "params": {
+          "q": "café & tea"
+        },
+        "valid": true
+      },
+      {
+        "label": "q: invalid",
+        "params": {
+          "q": " "
+        },
+        "valid": false
+      },
+      {
+        "label": "q: invalid",
+        "params": {
+          "q": {
+            "$repeat": "x",
+            "count": 2049
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "q: control",
+        "params": {
+          "q": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart: valid",
+        "params": {
+          "chart": "topselling_paid"
+        },
+        "valid": true
+      },
+      {
+        "label": "chart: valid",
+        "params": {
+          "chart": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": true
+      },
+      {
+        "label": "chart: invalid",
+        "params": {
+          "chart": "../chart"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart: invalid",
+        "params": {
+          "chart": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "chart: control",
+        "params": {
+          "chart": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: returned",
+        "params": {
+          "next_page_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJtb3ZpZXMiLCJjb250ZXh0Ijp7ImhsIjoiZW4iLCJnbCI6InVzIn0sImtpbmQiOiJwYWdlIiwidG9rZW4iOiJuYXRpdmUtY3Vyc29yIn0"
+        },
+        "valid": true
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "next_page_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "next_page_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "next_page_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "over UTF-8 bound: next_page_token: maximum Unicode query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 2048
+          },
+          "next_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3Jy07CUBiF0VeCChjHNSV/AzGByOXMKDFyqhYiyu3pDc/hGnyDtffbtS6i3V8mZX3ajhfX9Wp2aIpBfsn1T/OQDmk1zZOybpti2EurXS/aw2N87Y7R7nNaDu5f15Qxim5xi3zO23mM4vPST8/vt1Rd+mn8ep5WzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM/9Bl/TQp6+/NcvgR7T5vx1WX5nGMbnbaFIvf+7ZeVjtJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkqLr/QH05mjs+74AAA=="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "section_page_token: returned",
+        "params": {
+          "section_page_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJtb3ZpZXMiLCJjb250ZXh0Ijp7ImhsIjoiZW4iLCJnbCI6InVzIn0sImtpbmQiOiJzZWN0aW9uIiwidG9rZW4iOiJuYXRpdmUtY3Vyc29yIn0"
+        },
+        "valid": true
+      },
+      {
+        "label": "section_page_token: malformed",
+        "params": {
+          "section_page_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "section_page_token: malformed",
+        "params": {
+          "section_page_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "section_page_token: malformed",
+        "params": {
+          "section_page_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "over UTF-8 bound: section_page_token: maximum Unicode query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 2048
+          },
+          "section_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3Jy07CUBiF0VeCChrHNZC/gZhgLHBmFI2cioWIcnt6w3O4Bt9g7f1+qYpod+dJWR3X4/qyXMz2TTHIz7n6ae7SPi2meVJWbVMMe2mx6UW7f4ivzSHaXU7zwe3rmjLuo6uvkU95/RL3sT3309PHNY3O/TR+PU1HzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM/9Bl9Tgpq+/VfPgZ7S6vi7p9G2+PTY5DdLPjqqh/b/tyPtpIkiRJkiRJkiRJkiRJkiRJkiRJkiRJkhRd7w+CZjTD/74AAA=="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "see_more_token: returned",
+        "params": {
+          "see_more_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJtb3ZpZXMiLCJjb250ZXh0Ijp7ImhsIjoiZW4iLCJnbCI6InVzIn0sImtpbmQiOiJjb2xsZWN0aW9uIiwidG9rZW4iOiJuYXRpdmUtY3Vyc29yIn0"
+        },
+        "valid": true
+      },
+      {
+        "label": "see_more_token: malformed",
+        "params": {
+          "see_more_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "see_more_token: malformed",
+        "params": {
+          "see_more_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "see_more_token: malformed",
+        "params": {
+          "see_more_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "over UTF-8 bound: see_more_token: maximum Unicode query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 2048
+          },
+          "see_more_token": {
+            "$gzip": "H4sIAAAAAAAACu3Jy07CQABA0V+CChjWNTTTlJhgLDA7ikamYiFWeX290d/wLO7i5L5eyyy0h0uVl6dtUV/Xq8WxyUbpMZVfzV08xtU8VXnZNtl4EFe7QWiP9+Fj14f2kOJy9Pu6Jg+T0NW3kM5p+xQmYX8Zxoe3W5xdhrF4Ps9nzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM/9B5Oa3y8nOzHL+H9pDW2bRvirp9KfanJoU+dIvTJqu//95ytpMkSZIkSZIkSZIkSZIkSZIkSZIkSZIkKXSDH27bbFADvwAA"
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "movies_category: valid",
+        "params": {
+          "movies_category": "MEDICAL"
+        },
+        "valid": true
+      },
+      {
+        "label": "movies_category: valid",
+        "params": {
+          "movies_category": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": true
+      },
+      {
+        "label": "movies_category: invalid",
+        "params": {
+          "movies_category": "../category"
+        },
+        "valid": false
+      },
+      {
+        "label": "movies_category: invalid",
+        "params": {
+          "movies_category": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "movies_category: control",
+        "params": {
+          "movies_category": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "age: AGE_RANGE1",
+        "params": {
+          "movies_category": "FAMILY",
+          "age": "AGE_RANGE1"
+        },
+        "valid": true
+      },
+      {
+        "label": "age: AGE_RANGE2",
+        "params": {
+          "movies_category": "FAMILY",
+          "age": "AGE_RANGE2"
+        },
+        "valid": true
+      },
+      {
+        "label": "age: AGE_RANGE3",
+        "params": {
+          "movies_category": "FAMILY",
+          "age": "AGE_RANGE3"
+        },
+        "valid": true
+      },
+      {
+        "label": "age: unknown",
+        "params": {
+          "movies_category": "FAMILY",
+          "age": "unsupported"
+        },
+        "valid": false
+      },
+      {
+        "label": "age: control",
+        "params": {
+          "movies_category": "FAMILY",
+          "age": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "unknown parameter",
+        "params": {
+          "unknown": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "chart": "value",
+          "next_page_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "chart": "value",
+          "section_page_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "chart": "value",
+          "see_more_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "next_page_token": "value",
+          "section_page_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "next_page_token": "value",
+          "see_more_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "selector conflict",
+        "params": {
+          "section_page_token": "value",
+          "see_more_token": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "query/category conflict",
+        "params": {
+          "q": "coffee",
+          "movies_category": "MEDICAL"
+        },
+        "valid": false
+      },
+      {
+        "label": "age requires category",
+        "params": {
+          "age": "AGE_RANGE1"
+        },
+        "valid": false
+      },
+      {
+        "label": "q: UTF-8 byte boundary 2048",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "q: UTF-8 byte boundary 2052",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 513
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "q: UTF-8 mixed byte overflow",
+        "params": {
+          "q": {
+            "$gzip": "H4sIAAAAAAAACktMHAWjYBSMglEwCkbBCAOHVwIAi7nBSAEIAAA="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "q: UTF-8 accented byte boundary",
+        "params": {
+          "q": {
+            "$repeat": "é",
+            "count": 1024
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "chart excludes query",
+        "params": {
+          "q": "Dune",
+          "chart": "topselling_paid"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: maximum UTF-8 query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          },
+          "next_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3aQU7CUBSG0S1BBYzjmjavKTGBSOHNKDG2VQsRhcLqTZdhcgZn8N1/C/ftViShOw5lWlwO+ea2265OdTJrX9rip36Ip7hdtmVadHUyn8RtMwnd6TF8NefQHdtYzcatr9OwCP3mHtpre1iHRfgcpvH5/R6zYRrz1+sy01prrbXWWmuttdZaa6211lprrfW/67R4KtPie1/NP8Y/gUOe9XEdzqFfXfbJ5ne87aqsAQAAAAAAAAAAAAAAAAAAgNBP/gDi5zod+14AAA=="
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "section_page_token: maximum UTF-8 query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          },
+          "section_page_token": {
+            "$gzip": "H4sIAAAAAAAACu3aTU7CUBSG4S1BBYzjGshtICYYS7kziobeiqUR5W/1hmWYPINn8J5vC+fjWmShPVzmeXHazsrrulr2dTZKL6n4qR9iH6tFmudFW2fjQayaQWj7x/DVHEN7SHE1um9dnYdJ6MpbSOe0fQ2TsL8M4/PuFqeXYZy9nRdTrbXWWmuttdZaa6211lprrbXWWv+7zouneV58b1bjz/ufwDYr2/fZ/lSncAzd8rTJyt/7fb2aNgAAAAAAAAAAAAAAAAAAABC6wR+q+bP1/14AAA=="
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "see_more_token: maximum UTF-8 query and native cursor",
+        "params": {
+          "q": {
+            "$repeat": "😀",
+            "count": 512
+          },
+          "see_more_token": {
+            "$gzip": "H4sIAAAAAAAACu3aTU7CUACF0S1BBQzjGprXlJhgLPBmFA28ioWI8rd6g7swOYMz+HK3cN+vZRba/aXKy9O6qK/LxezQZIP0nMrv5iEe4mKaqrxsm2zYi4ttL7SHx/C5PYZ2n+J8cN+6Jg+j0NW3kM5p/RJGYXfpx6fNLU4u/Vi8nqcTrbXWWmuttdZaa6211lprrbXWWv+7zstxlZdfq/nw4/4TWGbjY1PU7VuxOzUpHEM3O62y+udvm0+2AAAAAAAAAAAAAAAAAAAAELreL2c43XgDXwAA"
+          }
+        },
+        "valid": true
+      }
+    ]
+  },
+  {
+    "mode": "google-play-product",
+    "path": "/api/google/play/product",
+    "parameters": [
+      "hl",
+      "gl",
+      "product_id",
+      "store",
+      "season_id"
+    ],
+    "cases": [
+      {
+        "label": "defaults",
+        "params": {
+          "product_id": "com.duolingo"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "en"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "zh-TW"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "en_US"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "a"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "en/us"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: control",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: valid",
+        "params": {
+          "product_id": "com.duolingo",
+          "gl": "us"
+        },
+        "valid": true
+      },
+      {
+        "label": "gl: valid",
+        "params": {
+          "product_id": "com.duolingo",
+          "gl": "GB"
+        },
+        "valid": true
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "gl": "u"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "gl": "usa"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "gl": "11"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: control",
+        "params": {
+          "product_id": "com.duolingo",
+          "gl": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: valid",
+        "params": {
+          "product_id": "com.duolingo"
+        },
+        "valid": true
+      },
+      {
+        "label": "product_id: valid",
+        "params": {
+          "product_id": {
+            "$repeat": "x",
+            "count": 512
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "product_id: invalid",
+        "params": {
+          "product_id": "../id"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: invalid",
+        "params": {
+          "product_id": {
+            "$repeat": "x",
+            "count": 513
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: control",
+        "params": {
+          "product_id": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "store: apps",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "apps"
+        },
+        "valid": true
+      },
+      {
+        "label": "store: books",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "books"
+        },
+        "valid": true
+      },
+      {
+        "label": "store: audiobooks",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "audiobooks"
+        },
+        "valid": true
+      },
+      {
+        "label": "store: movies",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "movies"
+        },
+        "valid": true
+      },
+      {
+        "label": "store: tv",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "tv"
+        },
+        "valid": true
+      },
+      {
+        "label": "store: unknown",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "unsupported"
+        },
+        "valid": false
+      },
+      {
+        "label": "store: control",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "season_id: valid",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "tv",
+          "season_id": "tvseason-id"
+        },
+        "valid": true
+      },
+      {
+        "label": "season_id: valid",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "tv",
+          "season_id": {
+            "$repeat": "x",
+            "count": 512
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "season_id: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "tv",
+          "season_id": "../id"
+        },
+        "valid": false
+      },
+      {
+        "label": "season_id: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "tv",
+          "season_id": {
+            "$repeat": "x",
+            "count": 513
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "season_id: control",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "tv",
+          "season_id": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: required",
+        "params": {},
+        "valid": false
+      },
+      {
+        "label": "unknown parameter",
+        "params": {
+          "product_id": "com.duolingo",
+          "unknown": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "season requires TV",
+        "params": {
+          "product_id": "com.duolingo",
+          "season_id": "tvseason-id"
+        },
+        "valid": false
+      }
+    ]
+  },
+  {
+    "mode": "google-play-reviews",
+    "path": "/api/google/play/reviews",
+    "parameters": [
+      "hl",
+      "gl",
+      "product_id",
+      "store",
+      "platform",
+      "rating",
+      "sort_by",
+      "num",
+      "next_page_token"
+    ],
+    "cases": [
+      {
+        "label": "defaults",
+        "params": {
+          "product_id": "com.duolingo"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "en"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "zh-TW"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: valid",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "en_US"
+        },
+        "valid": true
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "a"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "en/us"
+        },
+        "valid": false
+      },
+      {
+        "label": "hl: control",
+        "params": {
+          "product_id": "com.duolingo",
+          "hl": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: valid",
+        "params": {
+          "product_id": "com.duolingo",
+          "gl": "us"
+        },
+        "valid": true
+      },
+      {
+        "label": "gl: valid",
+        "params": {
+          "product_id": "com.duolingo",
+          "gl": "GB"
+        },
+        "valid": true
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "gl": "u"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "gl": "usa"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: invalid",
+        "params": {
+          "product_id": "com.duolingo",
+          "gl": "11"
+        },
+        "valid": false
+      },
+      {
+        "label": "gl: control",
+        "params": {
+          "product_id": "com.duolingo",
+          "gl": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: valid",
+        "params": {
+          "product_id": "com.duolingo"
+        },
+        "valid": true
+      },
+      {
+        "label": "product_id: valid",
+        "params": {
+          "product_id": {
+            "$repeat": "x",
+            "count": 512
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "product_id: invalid",
+        "params": {
+          "product_id": "../id"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: invalid",
+        "params": {
+          "product_id": {
+            "$repeat": "x",
+            "count": 513
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: control",
+        "params": {
+          "product_id": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "store: apps",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "apps"
+        },
+        "valid": true
+      },
+      {
+        "label": "store: books",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "books"
+        },
+        "valid": true
+      },
+      {
+        "label": "store: audiobooks",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "audiobooks"
+        },
+        "valid": true
+      },
+      {
+        "label": "store: movies",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "movies"
+        },
+        "valid": true
+      },
+      {
+        "label": "store: tv",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "tv"
+        },
+        "valid": true
+      },
+      {
+        "label": "store: unknown",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "unsupported"
+        },
+        "valid": false
+      },
+      {
+        "label": "store: control",
+        "params": {
+          "product_id": "com.duolingo",
+          "store": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "platform: phone",
+        "params": {
+          "product_id": "com.duolingo",
+          "platform": "phone"
+        },
+        "valid": true
+      },
+      {
+        "label": "platform: tablet",
+        "params": {
+          "product_id": "com.duolingo",
+          "platform": "tablet"
+        },
+        "valid": true
+      },
+      {
+        "label": "platform: watch",
+        "params": {
+          "product_id": "com.duolingo",
+          "platform": "watch"
+        },
+        "valid": true
+      },
+      {
+        "label": "platform: chromebook",
+        "params": {
+          "product_id": "com.duolingo",
+          "platform": "chromebook"
+        },
+        "valid": true
+      },
+      {
+        "label": "platform: tv",
+        "params": {
+          "product_id": "com.duolingo",
+          "platform": "tv"
+        },
+        "valid": true
+      },
+      {
+        "label": "platform: unknown",
+        "params": {
+          "product_id": "com.duolingo",
+          "platform": "unsupported"
+        },
+        "valid": false
+      },
+      {
+        "label": "platform: control",
+        "params": {
+          "product_id": "com.duolingo",
+          "platform": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "rating: valid 1",
+        "params": {
+          "product_id": "com.duolingo",
+          "rating": "1"
+        },
+        "valid": true
+      },
+      {
+        "label": "rating: valid 5",
+        "params": {
+          "product_id": "com.duolingo",
+          "rating": "5"
+        },
+        "valid": true
+      },
+      {
+        "label": "rating: valid +1",
+        "params": {
+          "product_id": "com.duolingo",
+          "rating": "+1"
+        },
+        "valid": true
+      },
+      {
+        "label": "rating: valid 01",
+        "params": {
+          "product_id": "com.duolingo",
+          "rating": "01"
+        },
+        "valid": true
+      },
+      {
+        "label": "rating: invalid 0",
+        "params": {
+          "product_id": "com.duolingo",
+          "rating": "0"
+        },
+        "valid": false
+      },
+      {
+        "label": "rating: invalid 6",
+        "params": {
+          "product_id": "com.duolingo",
+          "rating": "6"
+        },
+        "valid": false
+      },
+      {
+        "label": "rating: invalid 1.0",
+        "params": {
+          "product_id": "com.duolingo",
+          "rating": "1.0"
+        },
+        "valid": false
+      },
+      {
+        "label": "rating: invalid 1e1",
+        "params": {
+          "product_id": "com.duolingo",
+          "rating": "1e1"
+        },
+        "valid": false
+      },
+      {
+        "label": "rating: invalid yes",
+        "params": {
+          "product_id": "com.duolingo",
+          "rating": "yes"
+        },
+        "valid": false
+      },
+      {
+        "label": "rating: invalid 1_0",
+        "params": {
+          "product_id": "com.duolingo",
+          "rating": "1_0"
+        },
+        "valid": false
+      },
+      {
+        "label": "rating: control",
+        "params": {
+          "product_id": "com.duolingo",
+          "rating": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "sort_by: valid 1",
+        "params": {
+          "product_id": "com.duolingo",
+          "sort_by": "1"
+        },
+        "valid": true
+      },
+      {
+        "label": "sort_by: valid 3",
+        "params": {
+          "product_id": "com.duolingo",
+          "sort_by": "3"
+        },
+        "valid": true
+      },
+      {
+        "label": "sort_by: valid +1",
+        "params": {
+          "product_id": "com.duolingo",
+          "sort_by": "+1"
+        },
+        "valid": true
+      },
+      {
+        "label": "sort_by: valid 01",
+        "params": {
+          "product_id": "com.duolingo",
+          "sort_by": "01"
+        },
+        "valid": true
+      },
+      {
+        "label": "sort_by: invalid 0",
+        "params": {
+          "product_id": "com.duolingo",
+          "sort_by": "0"
+        },
+        "valid": false
+      },
+      {
+        "label": "sort_by: invalid 4",
+        "params": {
+          "product_id": "com.duolingo",
+          "sort_by": "4"
+        },
+        "valid": false
+      },
+      {
+        "label": "sort_by: invalid 1.0",
+        "params": {
+          "product_id": "com.duolingo",
+          "sort_by": "1.0"
+        },
+        "valid": false
+      },
+      {
+        "label": "sort_by: invalid 1e1",
+        "params": {
+          "product_id": "com.duolingo",
+          "sort_by": "1e1"
+        },
+        "valid": false
+      },
+      {
+        "label": "sort_by: invalid yes",
+        "params": {
+          "product_id": "com.duolingo",
+          "sort_by": "yes"
+        },
+        "valid": false
+      },
+      {
+        "label": "sort_by: invalid 1_0",
+        "params": {
+          "product_id": "com.duolingo",
+          "sort_by": "1_0"
+        },
+        "valid": false
+      },
+      {
+        "label": "sort_by: control",
+        "params": {
+          "product_id": "com.duolingo",
+          "sort_by": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: valid 1",
+        "params": {
+          "product_id": "com.duolingo",
+          "num": "1"
+        },
+        "valid": true
+      },
+      {
+        "label": "num: valid 199",
+        "params": {
+          "product_id": "com.duolingo",
+          "num": "199"
+        },
+        "valid": true
+      },
+      {
+        "label": "num: valid +1",
+        "params": {
+          "product_id": "com.duolingo",
+          "num": "+1"
+        },
+        "valid": true
+      },
+      {
+        "label": "num: valid 01",
+        "params": {
+          "product_id": "com.duolingo",
+          "num": "01"
+        },
+        "valid": true
+      },
+      {
+        "label": "num: invalid 0",
+        "params": {
+          "product_id": "com.duolingo",
+          "num": "0"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: invalid 200",
+        "params": {
+          "product_id": "com.duolingo",
+          "num": "200"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: invalid 1.0",
+        "params": {
+          "product_id": "com.duolingo",
+          "num": "1.0"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: invalid 1e1",
+        "params": {
+          "product_id": "com.duolingo",
+          "num": "1e1"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: invalid yes",
+        "params": {
+          "product_id": "com.duolingo",
+          "num": "yes"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: invalid 1_0",
+        "params": {
+          "product_id": "com.duolingo",
+          "num": "1_0"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: control",
+        "params": {
+          "product_id": "com.duolingo",
+          "num": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: returned",
+        "params": {
+          "product_id": "com.duolingo",
+          "next_page_token": "eyJ2IjoxLCJvcGVyYXRpb24iOiJyZXZpZXdzIiwiY29udGV4dCI6eyJobCI6ImVuIiwiZ2wiOiJ1cyIsInByb2R1Y3RfaWQiOiJjb20uZHVvbGluZ28iLCJzdG9yZSI6ImFwcHMiLCJwbGF0Zm9ybSI6InBob25lIiwic29ydF9ieSI6MSwibnVtIjo0MH0sImtpbmQiOiJyZXZpZXdzIiwidG9rZW4iOiJuYXRpdmUtY3Vyc29yIn0"
+        },
+        "valid": true
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "product_id": "com.duolingo",
+          "next_page_token": "garbage"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "product_id": "com.duolingo",
+          "next_page_token": "../token"
+        },
+        "valid": false
+      },
+      {
+        "label": "next_page_token: malformed",
+        "params": {
+          "product_id": "com.duolingo",
+          "next_page_token": {
+            "$repeat": "a",
+            "count": 65537
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: required",
+        "params": {},
+        "valid": false
+      },
+      {
+        "label": "unknown parameter",
+        "params": {
+          "product_id": "com.duolingo",
+          "unknown": "value"
+        },
+        "valid": false
+      }
+    ]
+  },
+  {
+    "mode": "apple-app-store-search",
+    "path": "/api/apple/app-store/search",
+    "parameters": [
+      "country",
+      "term",
+      "lang",
+      "num",
+      "disallow_explicit",
+      "property",
+      "category_id",
+      "device"
+    ],
+    "cases": [
+      {
+        "label": "defaults",
+        "params": {
+          "term": "coffee"
+        },
+        "valid": true
+      },
+      {
+        "label": "country: valid",
+        "params": {
+          "term": "coffee",
+          "country": "us"
+        },
+        "valid": true
+      },
+      {
+        "label": "country: valid",
+        "params": {
+          "term": "coffee",
+          "country": "GB"
+        },
+        "valid": true
+      },
+      {
+        "label": "country: valid",
+        "params": {
+          "term": "coffee",
+          "country": "UK"
+        },
+        "valid": true
+      },
+      {
+        "label": "country: invalid",
+        "params": {
+          "term": "coffee",
+          "country": "u"
+        },
+        "valid": false
+      },
+      {
+        "label": "country: invalid",
+        "params": {
+          "term": "coffee",
+          "country": "usa"
+        },
+        "valid": false
+      },
+      {
+        "label": "country: invalid",
+        "params": {
+          "term": "coffee",
+          "country": "zz"
+        },
+        "valid": false
+      },
+      {
+        "label": "country: control",
+        "params": {
+          "term": "coffee",
+          "country": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "term: valid",
+        "params": {
+          "term": "a"
+        },
+        "valid": true
+      },
+      {
+        "label": "term: valid",
+        "params": {
+          "term": {
+            "$repeat": "a",
+            "count": 2048
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "term: valid",
+        "params": {
+          "term": " coffee "
+        },
+        "valid": true
+      },
+      {
+        "label": "term: valid",
+        "params": {
+          "term": "café & tea"
+        },
+        "valid": true
+      },
+      {
+        "label": "term: invalid",
+        "params": {
+          "term": " "
+        },
+        "valid": false
+      },
+      {
+        "label": "term: invalid",
+        "params": {
+          "term": {
+            "$repeat": "x",
+            "count": 2049
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "term: control",
+        "params": {
+          "term": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "lang: valid",
+        "params": {
+          "term": "coffee",
+          "lang": "en-us"
+        },
+        "valid": true
+      },
+      {
+        "label": "lang: valid",
+        "params": {
+          "term": "coffee",
+          "lang": "FR-fr"
+        },
+        "valid": true
+      },
+      {
+        "label": "lang: invalid",
+        "params": {
+          "term": "coffee",
+          "lang": "en"
+        },
+        "valid": false
+      },
+      {
+        "label": "lang: invalid",
+        "params": {
+          "term": "coffee",
+          "lang": "english-US"
+        },
+        "valid": false
+      },
+      {
+        "label": "lang: invalid",
+        "params": {
+          "term": "coffee",
+          "lang": "en/us"
+        },
+        "valid": false
+      },
+      {
+        "label": "lang: control",
+        "params": {
+          "term": "coffee",
+          "lang": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: valid 1",
+        "params": {
+          "term": "coffee",
+          "num": "1"
+        },
+        "valid": true
+      },
+      {
+        "label": "num: valid 200",
+        "params": {
+          "term": "coffee",
+          "num": "200"
+        },
+        "valid": true
+      },
+      {
+        "label": "num: valid +1",
+        "params": {
+          "term": "coffee",
+          "num": "+1"
+        },
+        "valid": true
+      },
+      {
+        "label": "num: valid 01",
+        "params": {
+          "term": "coffee",
+          "num": "01"
+        },
+        "valid": true
+      },
+      {
+        "label": "num: invalid 0",
+        "params": {
+          "term": "coffee",
+          "num": "0"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: invalid 201",
+        "params": {
+          "term": "coffee",
+          "num": "201"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: invalid 1.0",
+        "params": {
+          "term": "coffee",
+          "num": "1.0"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: invalid 1e1",
+        "params": {
+          "term": "coffee",
+          "num": "1e1"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: invalid yes",
+        "params": {
+          "term": "coffee",
+          "num": "yes"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: invalid 1_0",
+        "params": {
+          "term": "coffee",
+          "num": "1_0"
+        },
+        "valid": false
+      },
+      {
+        "label": "num: control",
+        "params": {
+          "term": "coffee",
+          "num": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "disallow_explicit: true",
+        "params": {
+          "term": "coffee",
+          "disallow_explicit": "true"
+        },
+        "valid": true
+      },
+      {
+        "label": "disallow_explicit: false",
+        "params": {
+          "term": "coffee",
+          "disallow_explicit": "false"
+        },
+        "valid": true
+      },
+      {
+        "label": "disallow_explicit: invalid yes",
+        "params": {
+          "term": "coffee",
+          "disallow_explicit": "yes"
+        },
+        "valid": false
+      },
+      {
+        "label": "disallow_explicit: invalid no",
+        "params": {
+          "term": "coffee",
+          "disallow_explicit": "no"
+        },
+        "valid": false
+      },
+      {
+        "label": "disallow_explicit: invalid 1",
+        "params": {
+          "term": "coffee",
+          "disallow_explicit": "1"
+        },
+        "valid": false
+      },
+      {
+        "label": "disallow_explicit: invalid 0",
+        "params": {
+          "term": "coffee",
+          "disallow_explicit": "0"
+        },
+        "valid": false
+      },
+      {
+        "label": "disallow_explicit: invalid TRUE",
+        "params": {
+          "term": "coffee",
+          "disallow_explicit": "TRUE"
+        },
+        "valid": false
+      },
+      {
+        "label": "disallow_explicit: invalid perhaps",
+        "params": {
+          "term": "coffee",
+          "disallow_explicit": "perhaps"
+        },
+        "valid": false
+      },
+      {
+        "label": "disallow_explicit: control",
+        "params": {
+          "term": "coffee",
+          "disallow_explicit": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "property: developer",
+        "params": {
+          "term": "coffee",
+          "property": "developer"
+        },
+        "valid": true
+      },
+      {
+        "label": "property: unknown",
+        "params": {
+          "term": "coffee",
+          "property": "unsupported"
+        },
+        "valid": false
+      },
+      {
+        "label": "property: control",
+        "params": {
+          "term": "coffee",
+          "property": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "category_id: valid 1",
+        "params": {
+          "term": "coffee",
+          "category_id": "1"
+        },
+        "valid": true
+      },
+      {
+        "label": "category_id: valid 2147483647",
+        "params": {
+          "term": "coffee",
+          "category_id": "2147483647"
+        },
+        "valid": true
+      },
+      {
+        "label": "category_id: valid +1",
+        "params": {
+          "term": "coffee",
+          "category_id": "+1"
+        },
+        "valid": true
+      },
+      {
+        "label": "category_id: valid 01",
+        "params": {
+          "term": "coffee",
+          "category_id": "01"
+        },
+        "valid": true
+      },
+      {
+        "label": "category_id: invalid 0",
+        "params": {
+          "term": "coffee",
+          "category_id": "0"
+        },
+        "valid": false
+      },
+      {
+        "label": "category_id: invalid 2147483648",
+        "params": {
+          "term": "coffee",
+          "category_id": "2147483648"
+        },
+        "valid": false
+      },
+      {
+        "label": "category_id: invalid 1.0",
+        "params": {
+          "term": "coffee",
+          "category_id": "1.0"
+        },
+        "valid": false
+      },
+      {
+        "label": "category_id: invalid 1e1",
+        "params": {
+          "term": "coffee",
+          "category_id": "1e1"
+        },
+        "valid": false
+      },
+      {
+        "label": "category_id: invalid yes",
+        "params": {
+          "term": "coffee",
+          "category_id": "yes"
+        },
+        "valid": false
+      },
+      {
+        "label": "category_id: invalid 1_0",
+        "params": {
+          "term": "coffee",
+          "category_id": "1_0"
+        },
+        "valid": false
+      },
+      {
+        "label": "category_id: control",
+        "params": {
+          "term": "coffee",
+          "category_id": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "device: mobile",
+        "params": {
+          "term": "coffee",
+          "device": "mobile"
+        },
+        "valid": true
+      },
+      {
+        "label": "device: tablet",
+        "params": {
+          "term": "coffee",
+          "device": "tablet"
+        },
+        "valid": true
+      },
+      {
+        "label": "device: desktop",
+        "params": {
+          "term": "coffee",
+          "device": "desktop"
+        },
+        "valid": true
+      },
+      {
+        "label": "device: unknown",
+        "params": {
+          "term": "coffee",
+          "device": "unsupported"
+        },
+        "valid": false
+      },
+      {
+        "label": "device: control",
+        "params": {
+          "term": "coffee",
+          "device": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "term: required",
+        "params": {},
+        "valid": false
+      },
+      {
+        "label": "unknown parameter",
+        "params": {
+          "term": "coffee",
+          "unknown": "value"
+        },
+        "valid": false
+      },
+      {
+        "label": "term: UTF-8 byte boundary 2048",
+        "params": {
+          "term": {
+            "$repeat": "😀",
+            "count": 512
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "term: UTF-8 byte boundary 2052",
+        "params": {
+          "term": {
+            "$repeat": "😀",
+            "count": 513
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "term: UTF-8 mixed byte overflow",
+        "params": {
+          "term": {
+            "$gzip": "H4sIAAAAAAAACktMHAWjYBSMglEwCkbBCAOHVwIAi7nBSAEIAAA="
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "term: UTF-8 accented byte boundary",
+        "params": {
+          "term": {
+            "$repeat": "é",
+            "count": 1024
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "term: encoded boundary 128512 x 341",
+        "params": {
+          "term": {
+            "$repeat": "😀",
+            "count": 341
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "term: encoded boundary 128512 x 342",
+        "params": {
+          "term": {
+            "$repeat": "😀",
+            "count": 342
+          }
+        },
+        "valid": false
+      },
+      {
+        "label": "term: encoded boundary 233 x 682",
+        "params": {
+          "term": {
+            "$repeat": "é",
+            "count": 682
+          }
+        },
+        "valid": true
+      },
+      {
+        "label": "term: encoded boundary 233 x 683",
+        "params": {
+          "term": {
+            "$repeat": "é",
+            "count": 683
+          }
+        },
+        "valid": false
+      }
+    ]
+  },
+  {
+    "mode": "apple-app-store-product",
+    "path": "/api/apple/app-store/product",
+    "parameters": [
+      "country",
+      "product_id",
+      "type"
+    ],
+    "cases": [
+      {
+        "label": "defaults",
+        "params": {
+          "product_id": "570060128"
+        },
+        "valid": true
+      },
+      {
+        "label": "country: valid",
+        "params": {
+          "product_id": "570060128",
+          "country": "us"
+        },
+        "valid": true
+      },
+      {
+        "label": "country: valid",
+        "params": {
+          "product_id": "570060128",
+          "country": "GB"
+        },
+        "valid": true
+      },
+      {
+        "label": "country: valid",
+        "params": {
+          "product_id": "570060128",
+          "country": "UK"
+        },
+        "valid": true
+      },
+      {
+        "label": "country: invalid",
+        "params": {
+          "product_id": "570060128",
+          "country": "u"
+        },
+        "valid": false
+      },
+      {
+        "label": "country: invalid",
+        "params": {
+          "product_id": "570060128",
+          "country": "usa"
+        },
+        "valid": false
+      },
+      {
+        "label": "country: invalid",
+        "params": {
+          "product_id": "570060128",
+          "country": "zz"
+        },
+        "valid": false
+      },
+      {
+        "label": "country: control",
+        "params": {
+          "product_id": "570060128",
+          "country": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: valid",
+        "params": {
+          "product_id": "1"
+        },
+        "valid": true
+      },
+      {
+        "label": "product_id: valid",
+        "params": {
+          "product_id": "99999999999999999999"
+        },
+        "valid": true
+      },
+      {
+        "label": "product_id: invalid",
+        "params": {
+          "product_id": "0"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: invalid",
+        "params": {
+          "product_id": "-1"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: invalid",
+        "params": {
+          "product_id": "012"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: invalid",
+        "params": {
+          "product_id": "999999999999999999999"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: control",
+        "params": {
+          "product_id": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "type: app",
+        "params": {
+          "product_id": "570060128",
+          "type": "app"
+        },
+        "valid": true
+      },
+      {
+        "label": "type: unknown",
+        "params": {
+          "product_id": "570060128",
+          "type": "unsupported"
+        },
+        "valid": false
+      },
+      {
+        "label": "type: control",
+        "params": {
+          "product_id": "570060128",
+          "type": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: required",
+        "params": {},
+        "valid": false
+      },
+      {
+        "label": "unknown parameter",
+        "params": {
+          "product_id": "570060128",
+          "unknown": "value"
+        },
+        "valid": false
+      }
+    ]
+  },
+  {
+    "mode": "apple-app-store-reviews",
+    "path": "/api/apple/app-store/reviews",
+    "parameters": [
+      "country",
+      "product_id",
+      "sort",
+      "page"
+    ],
+    "cases": [
+      {
+        "label": "defaults",
+        "params": {
+          "product_id": "570060128"
+        },
+        "valid": true
+      },
+      {
+        "label": "country: valid",
+        "params": {
+          "product_id": "570060128",
+          "country": "us"
+        },
+        "valid": true
+      },
+      {
+        "label": "country: valid",
+        "params": {
+          "product_id": "570060128",
+          "country": "GB"
+        },
+        "valid": true
+      },
+      {
+        "label": "country: valid",
+        "params": {
+          "product_id": "570060128",
+          "country": "UK"
+        },
+        "valid": true
+      },
+      {
+        "label": "country: invalid",
+        "params": {
+          "product_id": "570060128",
+          "country": "u"
+        },
+        "valid": false
+      },
+      {
+        "label": "country: invalid",
+        "params": {
+          "product_id": "570060128",
+          "country": "usa"
+        },
+        "valid": false
+      },
+      {
+        "label": "country: invalid",
+        "params": {
+          "product_id": "570060128",
+          "country": "zz"
+        },
+        "valid": false
+      },
+      {
+        "label": "country: control",
+        "params": {
+          "product_id": "570060128",
+          "country": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: valid",
+        "params": {
+          "product_id": "1"
+        },
+        "valid": true
+      },
+      {
+        "label": "product_id: valid",
+        "params": {
+          "product_id": "99999999999999999999"
+        },
+        "valid": true
+      },
+      {
+        "label": "product_id: invalid",
+        "params": {
+          "product_id": "0"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: invalid",
+        "params": {
+          "product_id": "-1"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: invalid",
+        "params": {
+          "product_id": "012"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: invalid",
+        "params": {
+          "product_id": "999999999999999999999"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: control",
+        "params": {
+          "product_id": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "sort: mostrecent",
+        "params": {
+          "product_id": "570060128",
+          "sort": "mostrecent"
+        },
+        "valid": true
+      },
+      {
+        "label": "sort: mosthelpful",
+        "params": {
+          "product_id": "570060128",
+          "sort": "mosthelpful"
+        },
+        "valid": true
+      },
+      {
+        "label": "sort: unknown",
+        "params": {
+          "product_id": "570060128",
+          "sort": "unsupported"
+        },
+        "valid": false
+      },
+      {
+        "label": "sort: control",
+        "params": {
+          "product_id": "570060128",
+          "sort": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "page: valid 1",
+        "params": {
+          "product_id": "570060128",
+          "page": "1"
+        },
+        "valid": true
+      },
+      {
+        "label": "page: valid 2147483647",
+        "params": {
+          "product_id": "570060128",
+          "page": "2147483647"
+        },
+        "valid": true
+      },
+      {
+        "label": "page: valid +1",
+        "params": {
+          "product_id": "570060128",
+          "page": "+1"
+        },
+        "valid": true
+      },
+      {
+        "label": "page: valid 01",
+        "params": {
+          "product_id": "570060128",
+          "page": "01"
+        },
+        "valid": true
+      },
+      {
+        "label": "page: invalid 0",
+        "params": {
+          "product_id": "570060128",
+          "page": "0"
+        },
+        "valid": false
+      },
+      {
+        "label": "page: invalid 2147483648",
+        "params": {
+          "product_id": "570060128",
+          "page": "2147483648"
+        },
+        "valid": false
+      },
+      {
+        "label": "page: invalid 1.0",
+        "params": {
+          "product_id": "570060128",
+          "page": "1.0"
+        },
+        "valid": false
+      },
+      {
+        "label": "page: invalid 1e1",
+        "params": {
+          "product_id": "570060128",
+          "page": "1e1"
+        },
+        "valid": false
+      },
+      {
+        "label": "page: invalid yes",
+        "params": {
+          "product_id": "570060128",
+          "page": "yes"
+        },
+        "valid": false
+      },
+      {
+        "label": "page: invalid 1_0",
+        "params": {
+          "product_id": "570060128",
+          "page": "1_0"
+        },
+        "valid": false
+      },
+      {
+        "label": "page: control",
+        "params": {
+          "product_id": "570060128",
+          "page": "bad\n"
+        },
+        "valid": false
+      },
+      {
+        "label": "product_id: required",
+        "params": {},
+        "valid": false
+      },
+      {
+        "label": "unknown parameter",
+        "params": {
+          "product_id": "570060128",
+          "unknown": "value"
+        },
+        "valid": false
+      }
+    ]
+  }
+]

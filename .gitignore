@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+*.tgz
+*.sqlite3*
+*.db*
+.env
+.env.*
+!.env.example
