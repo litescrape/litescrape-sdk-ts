@@ -47,4 +47,4 @@ jobs:
         # npm provenance requires a public source repository.
         env:
           NPM_CONFIG_PROVENANCE: ${{ github.event.repository.private && 'false' || 'true' }}
-        run: npm publish package/*.tgz --access public
+        run: npm publish ./package/*.tgz --access public
