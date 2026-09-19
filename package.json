@@ -1,6 +1,6 @@
 {
   "name": "litescrape-sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "TypeScript SDK for the Litescrape API: validated, concurrent, retrying calls and durable batches.",
   "type": "module",
   "main": "./dist/cjs/index.js",

@@ -60,7 +60,7 @@ test("key resolution, URL precedence and SDK attribution on every request", asyn
   for (const request of api.calls) {
     assert.equal(request.headers.get("authorization"), "Bearer env-key");
     assert.equal(request.headers.get("x-litescrape-client"), `typescript-sdk/${sdk.VERSION}`);
-    assert.match(request.headers.get("user-agent"), /^litescrape-sdk\/0\.1\.0 \(Node\//);
+    assert.ok(request.headers.get("user-agent").startsWith(`litescrape-sdk/${sdk.VERSION} (Node/`));
     assert.equal(request.headers.get("accept"), "application/json");
     assert.equal(request.redirect, "manual");
   }
