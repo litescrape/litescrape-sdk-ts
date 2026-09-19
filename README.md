@@ -8,10 +8,11 @@ Follows the contracts and behavior of the [Python SDK](https://github.com/litesc
 v0.5.2. Supports Node.js 22.13+ with ESM, CommonJS, and TypeScript declarations. This is a
 server-side SDK: keep your API key on the server.
 
-Until the first npm release, install from GitHub (npm builds the package during installation):
+Until the first npm release, install from GitHub with an account that has repository access
+(npm builds the package during installation):
 
 ```sh
-npm install github:litescrape/litescrape-sdk-ts
+npm install git+https://github.com/litescrape/litescrape-sdk-ts.git
 ```
 
 After publication, the npm package name is `litescrape-sdk`:
@@ -277,5 +278,6 @@ package version. No tag or npm release is created by normal pushes.
 Before the first automated release, publish the initial package with an authorized npm account,
 then configure [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/) for GitHub repository
 `litescrape/litescrape-sdk-ts`, workflow `publish.yml`, and environment `npm`. Configure that GitHub
-environment as desired. Subsequent tagged releases use OIDC and provenance; no npm token is stored
-in this repository.
+environment as desired. Subsequent tagged releases use OIDC; no npm token is stored in this
+repository. The workflow enables provenance when the source repository is public and disables it
+while the repository is private, as required by npm.

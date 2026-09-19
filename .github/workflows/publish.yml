@@ -44,4 +44,7 @@ jobs:
           name: package
           path: package/
       - name: Publish with npm trusted publishing
-        run: npm publish package/*.tgz --access public --provenance
+        # npm provenance requires a public source repository.
+        env:
+          NPM_CONFIG_PROVENANCE: ${{ github.event.repository.private && 'false' || 'true' }}
+        run: npm publish package/*.tgz --access public
