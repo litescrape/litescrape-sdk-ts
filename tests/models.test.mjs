@@ -10,7 +10,7 @@ const allowlists = fixture("allowlists");
 const paths = fixture("paths");
 
 test("registry matches every Python endpoint, path, and parameter allowlist", () => {
-  assert.equal(Object.keys(sdk.REQUEST_TYPES).length, 34);
+  assert.equal(Object.keys(sdk.REQUEST_TYPES).length, 35);
   assert.deepEqual(Object.keys(sdk.REQUEST_TYPES).sort(), Object.keys(allowlists).sort());
   for (const [slug, Constructor] of Object.entries(sdk.REQUEST_TYPES)) {
     assert.equal(Constructor.endpoint, slug);
@@ -147,4 +147,41 @@ test("invalid deadlines, unknown fields, endpoint names and types fail locally",
   ])
     assert.throws(() => sdk.parseRequest(input), sdk.ValidationError);
   assert.equal(new sdk.GoogleSearch({ q: "x", timeout: 0.125 }).queryParams().timeout, "0.125");
+});
+
+test("Google Search num accepts 1 to 10", () => {
+  for (const Constructor of [sdk.GoogleSearch, sdk.GoogleAiOverview]) {
+    assert.equal(new Constructor({ q: "x", num: 10 }).queryParams().num, "10");
+    for (const num of [0, 11, 100])
+      assert.throws(() => new Constructor({ q: "x", num }), sdk.ValidationError);
+  }
+});
+
+test("WebFetch serializes its GET options and rejects invalid ones", () => {
+  const request = new sdk.WebFetch({
+    url: "https://example.com",
+    respond_with: "markdown",
+    target_selector: "article",
+    page_timeout: 30,
+    with_iframe: "quoted",
+    with_shadow_dom: true,
+  });
+  assert.equal(request.path, "/api/web/fetch");
+  assert.deepEqual(request.queryParams(), {
+    url: "https://example.com",
+    respond_with: "markdown",
+    target_selector: "article",
+    page_timeout: "30",
+    with_iframe: "quoted",
+    with_shadow_dom: "true",
+  });
+  for (const params of [
+    {},
+    { url: "" },
+    { url: "https://example.com", respond_with: "pdf" },
+    { url: "https://example.com", page_timeout: 181 },
+    { url: "https://example.com", viewport: { width: 1, height: 1 } },
+  ]) {
+    assert.throws(() => new sdk.WebFetch(params), sdk.ValidationError);
+  }
 });

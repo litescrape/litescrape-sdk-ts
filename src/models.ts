@@ -63,7 +63,8 @@ const search = {
   peek_pws: opt(flag),
   tbm: opt(z.enum(["lcl", "vid", "nws", "shop", "pts"])),
   start: opt(integer),
-  num: opt(integer),
+  // Google returns at most ten organic rows per page.
+  num: opt(integer.pipe(z.number().min(1).max(10))),
   device: opt(device),
   oq: opt(text),
   gs_lp: opt(text),
@@ -463,6 +464,23 @@ export const AppleAppStoreReviews = defineRequest("apple_app_store_reviews", "/a
   ...base,
   ...appleReviews,
 });
+const selector = z.string().min(1).max(2048);
+export const WebFetch = defineRequest("web_fetch", "/api/web/fetch", {
+  ...base,
+  url: z.string().min(1).max(8192),
+  respond_with: opt(z.enum(["markdown", "html", "text", "screenshot"])),
+  target_selector: opt(selector),
+  remove_selector: opt(selector),
+  wait_for_selector: opt(selector),
+  wait_until: opt(z.enum(["commit", "domcontentloaded", "load", "networkidle"])),
+  page_timeout: opt(integer.pipe(z.number().min(1).max(180))),
+  locale: opt(z.string().min(2).max(64)),
+  user_agent: opt(z.string().min(1).max(1024)),
+  with_links: opt(z.enum(["inlined", "referenced", "collapsed", "shortcut", "discarded"])),
+  with_images: opt(z.enum(["all", "alt", "none"])),
+  with_iframe: opt(z.union([strictBoolean, z.literal("quoted")])),
+  with_shadow_dom: opt(strictBoolean),
+});
 
 export const REQUEST_TYPES = Object.freeze({
   google_search: GoogleSearch,
@@ -499,6 +517,7 @@ export const REQUEST_TYPES = Object.freeze({
   apple_app_store_search: AppleAppStoreSearch,
   apple_app_store_product: AppleAppStoreProduct,
   apple_app_store_reviews: AppleAppStoreReviews,
+  web_fetch: WebFetch,
 });
 export type Endpoint = keyof typeof REQUEST_TYPES;
 export type AnyRequest = InstanceType<(typeof REQUEST_TYPES)[Endpoint]>;
@@ -541,6 +560,7 @@ export type GooglePlayReviews = InstanceType<typeof GooglePlayReviews>;
 export type AppleAppStoreSearch = InstanceType<typeof AppleAppStoreSearch>;
 export type AppleAppStoreProduct = InstanceType<typeof AppleAppStoreProduct>;
 export type AppleAppStoreReviews = InstanceType<typeof AppleAppStoreReviews>;
+export type WebFetch = InstanceType<typeof WebFetch>;
 
 /** Validate an untrusted object, including its endpoint discriminator. */
 export function parseRequest(input: unknown): AnyRequest {

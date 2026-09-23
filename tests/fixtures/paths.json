@@ -32,5 +32,6 @@
   "google_play_reviews": "/api/google/play/reviews",
   "apple_app_store_search": "/api/apple/app-store/search",
   "apple_app_store_product": "/api/apple/app-store/product",
-  "apple_app_store_reviews": "/api/apple/app-store/reviews"
+  "apple_app_store_reviews": "/api/apple/app-store/reviews",
+  "web_fetch": "/api/web/fetch"
 }

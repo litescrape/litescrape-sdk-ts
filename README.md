@@ -1,11 +1,11 @@
 # litescrape-sdk
 
 TypeScript and JavaScript SDK for the [Litescrape API](https://litescrape.com): validated,
-concurrent, retrying calls to all 34 search, maps, reviews, Google Play, and Apple App Store
-endpoints, with results returned in input order.
+concurrent, retrying calls to all 35 search, maps, reviews, Google Play, Apple App Store, and web
+fetch endpoints, with results returned in input order.
 
 Follows the contracts and behavior of the [Python SDK](https://github.com/litescrape/litescrape-sdk)
-v0.5.2. Supports Node.js 22.13+ with ESM, CommonJS, and TypeScript declarations. This is a
+v0.6.0. Supports Node.js 22.13+ with ESM, CommonJS, and TypeScript declarations. This is a
 server-side SDK: keep your API key on the server.
 
 Install the [`litescrape-sdk`](https://www.npmjs.com/package/litescrape-sdk) package from npm:
@@ -221,6 +221,31 @@ deadline. A `TransportError` alone does not establish whether an attempt was bil
 | `AppleAppStoreSearch`       | `apple_app_store_search`        |
 | `AppleAppStoreProduct`      | `apple_app_store_product`       |
 | `AppleAppStoreReviews`      | `apple_app_store_reviews`       |
+| `WebFetch`                  | `web_fetch`                     |
+
+`num` on `GoogleSearch` and `GoogleAiOverview` accepts 1 to 10, the most Google returns on one page.
+Use `start` to page further.
+
+## Fetch (Alpha)
+
+`WebFetch` renders a public web page in a fresh browser and returns it as Markdown, HTML, plain text,
+or a full-page PNG screenshot encoded as base64.
+
+```typescript
+import { WebFetch, scrape } from "litescrape-sdk";
+
+const [result] = await scrape([
+  new WebFetch({ url: "https://example.com", respond_with: "markdown", target_selector: "article" }),
+]);
+const page = result.raiseForError();
+console.log(page.title, page.status_code);
+console.log(page.content);
+```
+
+`status_code` is the status the site returned. A rendered 404 page is still a successful, billed
+capture, so check it before using `content`. Options: `respond_with`, `target_selector`,
+`remove_selector`, `wait_for_selector`, `wait_until`, `page_timeout`, `locale`, `user_agent`,
+`with_links`, `with_images`, `with_iframe` and `with_shadow_dom`.
 
 ## Store APIs (Alpha)
 
@@ -259,7 +284,7 @@ npm run test:package
 ```
 
 `npm run format` formats the source. Tests use local mock transports and a loopback HTTP server;
-they require no API key or paid requests. The tests include all 34 endpoint allowlists, the Python
+they require no API key or paid requests. The tests include all 35 endpoint allowlists, the Python
 SDK's 547 Store boundary cases, recovery/idempotency scenarios, cancellation, ESM/CommonJS consumers,
 and positive/negative TypeScript type checks. CI runs on Linux and Windows, including Node 22.13,
 22, 24, and 26. The package smoke test installs the tarball into a fresh consumer without build scripts.
