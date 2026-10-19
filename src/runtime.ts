@@ -134,7 +134,7 @@ export interface RuntimeOptions {
 interface RequestOptions extends RuntimeOptions {
   params?: Record<string, string>;
   method?: "GET" | "POST";
-  body?: Record<string, string>;
+  body?: Record<string, unknown>;
   headers?: Record<string, string>;
   acceptedStatuses?: number[];
   semaphores?: Semaphore[];

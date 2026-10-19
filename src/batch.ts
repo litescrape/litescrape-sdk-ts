@@ -53,7 +53,8 @@ export async function runBatch(items: readonly AnyRequest[], options: BatchOptio
         ...options,
         semaphores,
         method: "POST",
-        body: items[index]!.queryParams(),
+        // Query-string routes take scalar JSON values; structured routes take native JSON.
+        body: items[index]!.method === "POST" ? items[index]!.body() : items[index]!.queryParams(),
         acceptedStatuses: [200, 202],
         headers: {
           "Idempotency-Key": entry.submission,

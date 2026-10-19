@@ -1,0 +1,553 @@
+{
+  "postOnly": [
+    "copilot_chat_completions",
+    "google_shopping_merchant_urls"
+  ],
+  "requests": {
+    "airbnb_search": {
+      "q": "Austin, TX",
+      "adults": 2,
+      "amenities": "wifi",
+      "page": 1
+    },
+    "aliexpress_product": {
+      "url": "https://www.aliexpress.com/item/1005008176579188.html"
+    },
+    "aliexpress_search": {
+      "query": "coffee mug"
+    },
+    "amazon_autocomplete": {
+      "k": "coffee"
+    },
+    "amazon_featured_reviews": {
+      "asin": "B00FLYWNYQ",
+      "amazon_domain": "amazon.com"
+    },
+    "amazon_media_reviews": {
+      "asin": "B00FLYWNYQ",
+      "view": "media"
+    },
+    "amazon_product": {
+      "asin": "B072MQ5BRX"
+    },
+    "amazon_search": {
+      "k": "coffee"
+    },
+    "apartments_property": {
+      "url": "https://www.apartments.com/edison-austin-austin-tx/40n18nj/"
+    },
+    "apartments_search": {
+      "url": "https://www.apartments.com/austin-tx/"
+    },
+    "apple_app_store_product": {
+      "product_id": "570060128"
+    },
+    "apple_app_store_reviews": {
+      "product_id": "570060128"
+    },
+    "apple_app_store_search": {
+      "term": "coffee",
+      "num": 3
+    },
+    "apple_maps_places": {
+      "muid": "4372355869446211302"
+    },
+    "apple_maps_reviews": {
+      "muid": "4560078147072908047"
+    },
+    "ashby_search": {
+      "board": "ashby",
+      "q": "engineer"
+    },
+    "baidu_search": {
+      "q": "python documentation",
+      "pn": 0,
+      "rn": 10
+    },
+    "bestbuy_product": {
+      "url": "https://www.bestbuy.com/product/beats-studio-pro-wireless-noise-cancelling-over-the-ear-headphones-black/JJ8ZHR9K2T",
+      "store_id": "7"
+    },
+    "bestbuy_search": {
+      "query": "headphones",
+      "store_id": "7"
+    },
+    "bing_images": {
+      "q": "red panda",
+      "count": 10,
+      "mkt": "en-US"
+    },
+    "bing_maps": {
+      "q": "coffee Austin Texas",
+      "count": 3
+    },
+    "bing_product": {
+      "product_token": "eyJ2IjoxLCJ1cmwiOiJodHRwczovL3d3dy5iaW5nLmNvbS9zaG9wL2VudGl0eWRldGFpbHM_cT1jb2ZmZWUrbWFrZXImZmlsdGVycz1zY2VuYXJpbyUzYSUyMjE3JTIyK2dUeXBlJTNhJTIyMyUyMitnSWQlM2ElMjIwMDZBQjU2MEIzMUEyOTQyMjAzNjdGN0U1ODNFM0RFQiUyMitnSWRIYXNoJTNhJTIyMTA0ODI1NDc0JTIyK2dHbG9iYWxPZmZlcklkcyUzYSUyMjkwODEyNDYyNDEzJTIyK05vblNwb25zb3JlZE9mZmVyJTNhJTIydHJ1ZSUyMiZvcmlnaW5JR1VJRD01MjFCNkQ5QzBDNTA0MDFGQjY4QUU5QjMxN0QwMDk5MyZJRz01MjFCNkQ5QzBDNTA0MDFGQjY4QUU5QjMxN0QwMDk5MyZJSUQ9Y29tbWVyY2UuNjk4OCJ9"
+    },
+    "bing_search": {
+      "q": "python documentation"
+    },
+    "bing_shopping": {
+      "q": "coffee maker",
+      "mkt": "en-US"
+    },
+    "brave_ai_mode": {
+      "q": "How do rainbows form?",
+      "country": "us",
+      "language": "en",
+      "safeSearch": "moderate",
+      "units_of_measurement": "us"
+    },
+    "brave_search": {
+      "q": "python programming"
+    },
+    "copilot_chat_completions": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "What is the weather near me right now?"
+        }
+      ],
+      "model": "copilot",
+      "stream": false,
+      "country": "US",
+      "state": "CA"
+    },
+    "duckduckgo_maps": {
+      "q": "coffee",
+      "lat": "30.2672",
+      "lon": "-97.7431"
+    },
+    "duckduckgo_search": {
+      "q": "python documentation"
+    },
+    "ebay_product": {
+      "product_id": "305576857892"
+    },
+    "ebay_search": {
+      "_nkw": "lego star wars",
+      "_ipg": 25
+    },
+    "ebay_seller": {
+      "seller_id": "antonline",
+      "type": "store",
+      "_ipg": 24
+    },
+    "etsy_product": {
+      "url": "https://www.etsy.com/listing/1510223855/the-libby-travel-mug-hand-thrown-ceramic"
+    },
+    "etsy_search": {
+      "query": "ceramic mug"
+    },
+    "eventbrite_search": {
+      "location": "tx--austin",
+      "q": "music"
+    },
+    "facebook_hashtag_posts": {
+      "tag": "nasa",
+      "limit": 20
+    },
+    "facebook_marketplace_browse": {
+      "location": "austin",
+      "query": "bicycle",
+      "radius_km": 20,
+      "min_price": 10,
+      "max_price": 200,
+      "limit": 20
+    },
+    "facebook_page_posts": {
+      "handle": "NASA"
+    },
+    "facebook_post": {
+      "url": "https://www.facebook.com/NASA/posts/1587860636042640/"
+    },
+    "facebook_reel": {
+      "url": "https://www.facebook.com/reel/1380134307388381/"
+    },
+    "facebook_search_pages": {
+      "query": "NASA",
+      "limit": 15,
+      "country": "US",
+      "ad_type": "ALL"
+    },
+    "facebook_search_profiles": {
+      "query": "Nasa",
+      "limit": 12
+    },
+    "glassdoor_search": {
+      "q": "software engineer",
+      "location_id": 1132348,
+      "location_type": "C"
+    },
+    "google_ads": {
+      "q": "coffee maker",
+      "location": "Austin, Texas, United States"
+    },
+    "google_ai_mode": {
+      "q": "why is the sky blue",
+      "hl": "en",
+      "gl": "us"
+    },
+    "google_ai_overview": {
+      "q": "why is the sky blue"
+    },
+    "google_contributor_reviews": {
+      "contributor_id": "110382514725174877672",
+      "limit": 2
+    },
+    "google_gemini": {
+      "prompt": "Explain why the sky is blue in one sentence.",
+      "hl": "en"
+    },
+    "google_images": {
+      "q": "red panda",
+      "num": 20,
+      "hl": "en",
+      "gl": "us"
+    },
+    "google_jobs": {
+      "q": "software engineer jobs in New York"
+    },
+    "google_local": {
+      "q": "coffee Austin Texas",
+      "hl": "en",
+      "gl": "us"
+    },
+    "google_maps": {
+      "q": "787 Coffee New York",
+      "type": "search",
+      "hl": "en",
+      "gl": "us"
+    },
+    "google_maps_live_foot_traffic": {
+      "place_id": "ChIJk2wKz7XHwoARxvQQWiJGyok"
+    },
+    "google_maps_photo": {
+      "data_id": "CIABIhAAQr6KrxiC_knILBjf2RxL",
+      "hl": "en"
+    },
+    "google_maps_posts": {
+      "data_id": "0x88e5b787f92eb419:0x837211a455038baa"
+    },
+    "google_play_apps": {
+      "q": "coffee",
+      "hl": "en",
+      "gl": "us"
+    },
+    "google_play_books": {
+      "q": "coffee",
+      "hl": "en",
+      "gl": "us"
+    },
+    "google_play_games": {
+      "q": "chess",
+      "hl": "en",
+      "gl": "us"
+    },
+    "google_play_movies": {
+      "q": "inception",
+      "hl": "en",
+      "gl": "us"
+    },
+    "google_play_product": {
+      "product_id": "com.duolingo"
+    },
+    "google_play_reviews": {
+      "product_id": "com.duolingo",
+      "num": 3
+    },
+    "google_reviews": {
+      "data_id": "0x88e5b787f92eb419:0x837211a455038baa",
+      "num": 2,
+      "sort_by": "newestFirst"
+    },
+    "google_search": {
+      "q": "python documentation",
+      "num": 3,
+      "fast_mode": true
+    },
+    "google_shopping": {
+      "q": "coffee maker",
+      "num": 3,
+      "hl": "en",
+      "gl": "us"
+    },
+    "google_shopping_merchant_urls": {
+      "gl": "us",
+      "hl": "en",
+      "products": [
+        {
+          "gpcid": "2786756917538688235",
+          "headline_offer_docid": "5148952067814683768",
+          "merchant": "Target"
+        }
+      ]
+    },
+    "google_shopping_product": {
+      "q": "coffee maker",
+      "gpcid": "16418087637395758399"
+    },
+    "homedepot_product": {
+      "url": "https://www.homedepot.com/p/DEWALT-20V-MAX-Cordless-Drill-DCD771C2/204279858"
+    },
+    "homedepot_search": {
+      "query": "drill"
+    },
+    "homes_property": {
+      "url": "https://www.homes.com/property/7516-windrush-dr-austin-tx/x5zewgn876r6t/"
+    },
+    "homes_search": {
+      "url": "https://www.homes.com/austin-tx/"
+    },
+    "ikea_product": {
+      "url": "https://www.ikea.com/us/en/p/billy-bookcase-white-20522046/",
+      "store_id": "170"
+    },
+    "ikea_search": {
+      "query": "desk",
+      "store_id": "170"
+    },
+    "indeed_search": {
+      "q": "software engineer",
+      "location": "New York, NY"
+    },
+    "instagram_embed": {
+      "handle": "instagram"
+    },
+    "instagram_post": {
+      "url": "https://www.instagram.com/p/C8rKmYvsrck/"
+    },
+    "instagram_posts": {
+      "handle": "instagram"
+    },
+    "instagram_profile": {
+      "handle": "instagram"
+    },
+    "instagram_profile_post_count": {
+      "handle": "instagram"
+    },
+    "instagram_search_popular": {
+      "query": "basketball"
+    },
+    "kroger_product": {
+      "url": "https://www.kroger.com/p/maxwell-house-original-roast-ground-coffee-canister/0004300009422",
+      "store_id": "01600273"
+    },
+    "kroger_search": {
+      "query": "coffee",
+      "store_id": "01600273"
+    },
+    "levels_search": {
+      "q": "software engineer"
+    },
+    "naver_ai_overview": {
+      "query": "coffee"
+    },
+    "naver_search": {
+      "query": "coffee",
+      "where": "nexearch"
+    },
+    "realtor_property": {
+      "url": "https://www.realtor.com/realestateandhomes-detail/7901-Gilwice-Ln_Austin_TX_78744_M74493-23665"
+    },
+    "realtor_search": {
+      "url": "https://www.realtor.com/realestateandhomes-search/Austin_TX/",
+      "limit": 5
+    },
+    "redfin_property": {
+      "url": "https://www.redfin.com/WA/Seattle/1120-8th-Ave-98101/unit-1603/home/14602"
+    },
+    "redfin_search": {
+      "region_id": 16163,
+      "region_type": 6,
+      "max_price": 800000,
+      "min_beds": 2,
+      "limit": 5
+    },
+    "sprouts_product": {
+      "url": "https://shop.sprouts.com/store/sprouts/products/79995164-medium-roast-coffee-44oz",
+      "store_id": "17650"
+    },
+    "sprouts_search": {
+      "query": "coffee",
+      "store_id": "17650"
+    },
+    "target_product": {
+      "url": "https://www.target.com/p/starbucks-fall-blend-medium-roast-ground-coffee-10oz/-/A-16185604",
+      "store_id": "1448"
+    },
+    "target_search": {
+      "query": "coffee",
+      "store_id": "1448"
+    },
+    "tiktok_collection_videos": {
+      "url": "https://www.tiktok.com/@kibblemaster808/collection/Want-to-go-7665668414573546258",
+      "count": 3
+    },
+    "tiktok_comment_replies": {
+      "video_id": "7681307586901134622",
+      "comment_id": "7681330380372558606",
+      "count": 3
+    },
+    "tiktok_comments": {
+      "video_id": "7681307586901134622",
+      "count": 3
+    },
+    "tiktok_followers": {
+      "handle": "tiktok",
+      "count": 3
+    },
+    "tiktok_following": {
+      "handle": "tiktok",
+      "count": 3
+    },
+    "tiktok_live": {
+      "room_id": "7693676830666705678"
+    },
+    "tiktok_profile": {
+      "handle": "tiktok"
+    },
+    "tiktok_profile_videos": {
+      "handle": "tiktok",
+      "count": 3
+    },
+    "tiktok_search_hashtag": {
+      "hashtag": "python",
+      "count": 3
+    },
+    "tiktok_search_keyword": {
+      "query": "coffee",
+      "count": 3
+    },
+    "tiktok_search_suggestions": {
+      "query": "coffee"
+    },
+    "tiktok_search_top": {
+      "query": "coffee",
+      "count": 3
+    },
+    "tiktok_song": {
+      "clip_id": "7106686378527787818"
+    },
+    "tiktok_song_videos": {
+      "clip_id": "7106686378527787818",
+      "count": 3
+    },
+    "tiktok_transcript": {
+      "url": "https://www.tiktok.com/@davidteathercodes/video/7106686413101468970"
+    },
+    "tiktok_trending_feed": {
+      "count": 3
+    },
+    "tiktok_user_live": {
+      "handle": "tiktok"
+    },
+    "tiktok_video": {
+      "url": "https://www.tiktok.com/@davidteathercodes/video/7106686413101468970"
+    },
+    "tripadvisor_place": {
+      "place_id": "437641"
+    },
+    "tripadvisor_reviews": {
+      "place_id": "437641",
+      "num": 3
+    },
+    "tripadvisor_search": {
+      "q": "coffee Austin Texas"
+    },
+    "walmart_product": {
+      "url": "https://www.walmart.com/ip/5344812220"
+    },
+    "walmart_search": {
+      "query": "coffee"
+    },
+    "wayfair_product": {
+      "url": "https://www.wayfair.com/shop-product-type/pdp/george-oliver-caidence-2-drawer-writing-desk-with-solid-wood-legs-w005949248.html"
+    },
+    "wayfair_search": {
+      "query": "desk"
+    },
+    "web_fetch": {
+      "url": "https://example.com",
+      "respond_with": "markdown"
+    },
+    "web_screenshot": {
+      "url": "https://example.com",
+      "full_page": false
+    },
+    "wholefoods_product": {
+      "url": "https://www.wholefoodsmarket.com/product/groundwork-coffee-co-organic-cold-brew-coffee-concentrate-32-fz-b079ltr61q",
+      "store_id": "10233"
+    },
+    "wholefoods_search": {
+      "query": "coffee",
+      "store_id": "10233"
+    },
+    "x_community": {
+      "community_id": "1926186499399139650"
+    },
+    "x_community_posts": {
+      "community_id": "1926186499399139650"
+    },
+    "x_post": {
+      "post_id": "2107894997538525580"
+    },
+    "x_profile": {
+      "username": "OpenAI"
+    },
+    "x_user_posts": {
+      "username": "OpenAI"
+    },
+    "yahoo_images": {
+      "p": "coffee",
+      "yahoo_domain": "search.yahoo.com",
+      "b": 1
+    },
+    "yahoo_search": {
+      "p": "coffee",
+      "yahoo_domain": "search.yahoo.com",
+      "b": 1
+    },
+    "yandex_images": {
+      "text": "coffee"
+    },
+    "yandex_search": {
+      "text": "python documentation"
+    },
+    "yelp_place": {
+      "place_id": "arabica-brooklyn"
+    },
+    "yelp_reviews": {
+      "place_id": "dDz2erKJ_Z2HMur0tQ_iJA"
+    },
+    "yelp_search": {
+      "find_desc": "coffee",
+      "find_loc": "Austin, TX"
+    },
+    "youtube_channel": {
+      "channel_id": "veritasium",
+      "tab": "videos"
+    },
+    "youtube_search": {
+      "q": "python tutorial",
+      "type": "video"
+    },
+    "zillow_locations": {
+      "q": "Seattle, WA",
+      "type": "regions",
+      "limit": 5
+    },
+    "zillow_property": {
+      "url": "https://www.zillow.com/homedetails/743-N-74th-St-Seattle-WA-98103/48868689_zpid/"
+    },
+    "zillow_search": {
+      "q": "Seattle, WA",
+      "max_price": 800000,
+      "min_beds": 2
+    },
+    "ziprecruiter_search": {
+      "q": "software engineer",
+      "location": "New York, NY"
+    }
+  }
+}

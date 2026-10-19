@@ -6,6 +6,9 @@ import {
   GooglePlayApps,
   GooglePlayReviews,
   AppleAppStoreSearch,
+  CopilotChatCompletions,
+  LevelsSearch,
+  WebFetch,
   REQUEST_TYPES,
   type AnyRequest,
   type RequestInput,
@@ -25,6 +28,17 @@ new GooglePlayApps({});
 new GooglePlayReviews({ product_id: "com.example", num: "10" });
 new AppleAppStoreSearch({ term: "coffee", country: "UK" });
 new REQUEST_TYPES.google_search({ q: "coffee" });
+new CopilotChatCompletions({ messages: [{ role: "user", content: "hi" }], country: "US" });
+new WebFetch({
+  url: "https://example.com",
+  target_selector: ["main"],
+  viewport: { width: 800, height: 600 },
+});
+const levels = new LevelsSearch({ q: "engineer", companies: ["openai"] });
+const companies: readonly string[] | null | undefined = levels.companies;
+const method: "GET" | "POST" = LevelsSearch.method;
+void companies;
+void method;
 
 // @ts-expect-error Endpoint discriminator must be valid.
 scrape([{ endpoint: "google", q: "x" }]);
@@ -40,6 +54,10 @@ new GoogleSearch({ q: "x", timeout: "15" });
 new GoogleMaps({ q: "x", type: "invalid" });
 // @ts-expect-error Fast mode does not accept numeric boolean lookalikes.
 new GoogleSearch({ q: "x", fast_mode: 1 });
+// @ts-expect-error Message roles are literal types.
+new CopilotChatCompletions({ messages: [{ role: "tool", content: "x" }] });
+// @ts-expect-error Routes removed from the v3 catalog are not request types.
+scrape([{ endpoint: "google_maps_web_results", q: "x", ibp: "y" }]);
 // @ts-expect-error Validated fields are immutable.
 search.q = "changed";
 

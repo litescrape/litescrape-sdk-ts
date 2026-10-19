@@ -170,7 +170,9 @@ export async function scrape(
         const request = items[index]!;
         const outcome = await requestWithRetries(request.path, {
           ...context,
-          params: request.queryParams(),
+          ...(request.method === "POST"
+            ? { method: "POST" as const, body: request.body() }
+            : { params: request.queryParams() }),
           semaphores,
           gate: () => fatal,
           onOutcome: (outcome) => {

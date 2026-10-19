@@ -328,3 +328,33 @@ test("backoff caps and HTTP-date parsing follow the Python policy", () => {
   assert.equal(sdk.ascrape, sdk.scrape);
   assert.equal(sdk.akey_status, sdk.keyStatus);
 });
+
+test("structured routes POST JSON bodies; query routes send JSON-encoded arrays", async () => {
+  const api = mockApi();
+  const seen = new Map();
+  api.handle = async (request) => {
+    const url = new URL(request.url);
+    seen.set(url.pathname, { request, url, body: request.method === "POST" ? await request.json() : null });
+    return json({ ok: true }, 200, { "x-request-id": "req-ok" });
+  };
+  const results = await sdk.scrape(
+    [
+      { endpoint: "copilot_chat_completions", messages: [{ role: "user", content: "Hi" }], timeout: 20 },
+      new sdk.WebFetch({ url: "https://example.com", viewport: { width: 800, height: 600 } }),
+      { endpoint: "indeed_search", q: "engineer", employer_keys: ["a", "b"] },
+    ],
+    api.options,
+  );
+  assert.ok(results.every((result) => result.ok));
+  const chat = seen.get("/api/copilot/chat/completions");
+  assert.equal(chat.request.method, "POST");
+  assert.equal(chat.url.search, "");
+  assert.equal(chat.request.headers.get("content-type"), "application/json");
+  assert.deepEqual(chat.body, { messages: [{ role: "user", content: "Hi" }], timeout: 20 });
+  const page = seen.get("/api/web/fetch");
+  assert.equal(page.request.method, "POST");
+  assert.deepEqual(page.body, { url: "https://example.com", viewport: { width: 800, height: 600 } });
+  const jobs = seen.get("/api/indeed/search");
+  assert.equal(jobs.request.method, "GET");
+  assert.equal(jobs.url.searchParams.get("employer_keys"), JSON.stringify(["a", "b"]));
+});

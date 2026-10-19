@@ -1,12 +1,13 @@
 # litescrape-sdk
 
 TypeScript and JavaScript SDK for the [Litescrape API](https://litescrape.com): validated,
-concurrent, retrying calls to all 35 search, maps, reviews, Google Play, Apple App Store, and web
-fetch endpoints, with results returned in input order.
+concurrent, retrying calls to all 139 endpoints of the v3 catalog (search engines, AI answers, maps
+and reviews, app stores, social media, retail and marketplaces, jobs, real estate, and web fetch),
+with results returned in input order.
 
-Follows the contracts and behavior of the [Python SDK](https://github.com/litescrape/litescrape-sdk)
-v0.6.0. Supports Node.js 22.13+ with ESM, CommonJS, and TypeScript declarations. This is a
-server-side SDK: keep your API key on the server.
+Request validation follows the API's v3 OpenAPI contract; runtime behavior follows the
+[Python SDK](https://github.com/litescrape/litescrape-sdk). Supports Node.js 22.13+ with ESM,
+CommonJS, and TypeScript declarations. This is a server-side SDK: keep your API key on the server.
 
 Install the [`litescrape-sdk`](https://www.npmjs.com/package/litescrape-sdk) package from npm:
 
@@ -39,10 +40,17 @@ parameters, invalid values, missing required fields, and incompatible parameter 
 are rejected. Every input is validated before the first HTTP call. A `ValidationError` contains
 `problems`, an array of `[inputIndex, message]` pairs. `parseRequest(unknown)` validates external input.
 
-`REQUEST_TYPES` maps every endpoint slug to its request constructor. Constructors expose `path`
-and `parameters`; instances expose immutable normalized fields, `path`, and `queryParams()`.
-Use strings or `bigint` for numeric IDs larger than JavaScript's safe integer range. Store IDs
-are strictly strings, matching the Python Store contracts.
+`REQUEST_TYPES` maps every endpoint slug to its request constructor. Constructors expose `path`,
+`method`, and `parameters`; instances expose immutable normalized fields, `path`, `method`,
+`queryParams()`, and `body()`. Use strings or `bigint` for numeric IDs larger than JavaScript's
+safe integer range, such as TikTok, X, and Google Shopping IDs. Store IDs are strictly strings,
+matching the Python Store contracts.
+
+Most endpoints are called with `GET` and `queryParams()`. Array parameters, such as job search
+filters, are sent as JSON text in the query string, as the API expects. Endpoints whose requests
+contain nested JSON (`WebFetch`, `WebScreenshot`, `GoogleShoppingMerchantUrls`, and
+`CopilotChatCompletions`) are sent as JSON `POST` bodies built by `body()`; their `method` is
+`"POST"`. Durable batch submissions always send JSON bodies.
 
 Each `Result` has `index`, `request`, `ok`, `data`, `error`, `statusCode`, `requestId`, `attempts`,
 `elapsed` (seconds), and `jobId` (empty outside batch mode). `raiseForError()` throws the error or
@@ -185,67 +193,208 @@ deadline. A `TransportError` alone does not establish whether an attempt was bil
 
 ## Endpoints
 
-| Request class               | Endpoint slug                   |
-| --------------------------- | ------------------------------- |
-| `GoogleSearch`              | `google_search`                 |
-| `GoogleAiOverview`          | `google_ai_overview`            |
-| `GoogleAiMode`              | `google_ai_mode`                |
-| `GoogleAds`                 | `google_ads`                    |
-| `GoogleShopping`            | `google_shopping`               |
-| `GoogleShoppingProduct`     | `google_shopping_product`       |
-| `GoogleLocal`               | `google_local`                  |
-| `GoogleMaps`                | `google_maps`                   |
-| `GoogleMapsLiveFootTraffic` | `google_maps_live_foot_traffic` |
-| `GoogleMapsPosts`           | `google_maps_posts`             |
-| `GoogleMapsPhoto`           | `google_maps_photo`             |
-| `GoogleMapsWebResults`      | `google_maps_web_results`       |
-| `GoogleReviews`             | `google_reviews`                |
-| `GoogleContributorReviews`  | `google_contributor_reviews`    |
-| `BingSearch`                | `bing_search`                   |
-| `BingMaps`                  | `bing_maps`                     |
-| `DuckDuckGoSearch`          | `duckduckgo_search`             |
-| `DuckDuckGoMaps`            | `duckduckgo_maps`               |
-| `YelpSearch`                | `yelp_search`                   |
-| `YelpReviews`               | `yelp_reviews`                  |
-| `TripadvisorSearch`         | `tripadvisor_search`            |
-| `TripadvisorPlace`          | `tripadvisor_place`             |
-| `TripadvisorReviews`        | `tripadvisor_reviews`           |
-| `AppleMapsPlaces`           | `apple_maps_places`             |
-| `AppleMapsReviews`          | `apple_maps_reviews`            |
-| `GooglePlayApps`            | `google_play_apps`              |
-| `GooglePlayGames`           | `google_play_games`             |
-| `GooglePlayBooks`           | `google_play_books`             |
-| `GooglePlayMovies`          | `google_play_movies`            |
-| `GooglePlayProduct`         | `google_play_product`           |
-| `GooglePlayReviews`         | `google_play_reviews`           |
-| `AppleAppStoreSearch`       | `apple_app_store_search`        |
-| `AppleAppStoreProduct`      | `apple_app_store_product`       |
-| `AppleAppStoreReviews`      | `apple_app_store_reviews`       |
-| `WebFetch`                  | `web_fetch`                     |
+| Request class                | Endpoint slug                   | Route                                     |
+| ---------------------------- | ------------------------------- | ----------------------------------------- |
+| `GoogleSearch`               | `google_search`                 | `/api/google/search`                      |
+| `GoogleAiOverview`           | `google_ai_overview`            | `/api/google/ai-overview`                 |
+| `GoogleAiMode`               | `google_ai_mode`                | `/api/google/ai-mode`                     |
+| `GoogleAds`                  | `google_ads`                    | `/api/google/ads`                         |
+| `GoogleShopping`             | `google_shopping`               | `/api/google/shopping`                    |
+| `GoogleShoppingProduct`      | `google_shopping_product`       | `/api/google/shopping/product`            |
+| `GoogleLocal`                | `google_local`                  | `/api/google/local`                       |
+| `GoogleMaps`                 | `google_maps`                   | `/api/google/maps`                        |
+| `GoogleMapsLiveFootTraffic`  | `google_maps_live_foot_traffic` | `/api/google/maps/popular-times`          |
+| `GoogleMapsPosts`            | `google_maps_posts`             | `/api/google/maps/posts`                  |
+| `GoogleMapsPhoto`            | `google_maps_photo`             | `/api/google/maps/photo-meta`             |
+| `GoogleReviews`              | `google_reviews`                | `/api/google/reviews`                     |
+| `GoogleContributorReviews`   | `google_contributor_reviews`    | `/api/google/contributor-reviews`         |
+| `BingSearch`                 | `bing_search`                   | `/api/bing/search`                        |
+| `BingMaps`                   | `bing_maps`                     | `/api/bing/maps`                          |
+| `DuckDuckGoSearch`           | `duckduckgo_search`             | `/api/duckduckgo/search`                  |
+| `DuckDuckGoMaps`             | `duckduckgo_maps`               | `/api/duckduckgo/maps`                    |
+| `YelpSearch`                 | `yelp_search`                   | `/api/yelp/search`                        |
+| `YelpReviews`                | `yelp_reviews`                  | `/api/yelp/reviews`                       |
+| `TripadvisorSearch`          | `tripadvisor_search`            | `/api/tripadvisor/search`                 |
+| `TripadvisorPlace`           | `tripadvisor_place`             | `/api/tripadvisor/place`                  |
+| `TripadvisorReviews`         | `tripadvisor_reviews`           | `/api/tripadvisor/reviews`                |
+| `AppleMapsPlaces`            | `apple_maps_places`             | `/api/apple/maps/places`                  |
+| `AppleMapsReviews`           | `apple_maps_reviews`            | `/api/apple/maps/reviews`                 |
+| `GooglePlayApps`             | `google_play_apps`              | `/api/google/play/apps`                   |
+| `GooglePlayGames`            | `google_play_games`             | `/api/google/play/games`                  |
+| `GooglePlayBooks`            | `google_play_books`             | `/api/google/play/books`                  |
+| `GooglePlayMovies`           | `google_play_movies`            | `/api/google/play/movies`                 |
+| `GooglePlayProduct`          | `google_play_product`           | `/api/google/play/product`                |
+| `GooglePlayReviews`          | `google_play_reviews`           | `/api/google/play/reviews`                |
+| `AppleAppStoreSearch`        | `apple_app_store_search`        | `/api/apple/app-store/search`             |
+| `AppleAppStoreProduct`       | `apple_app_store_product`       | `/api/apple/app-store/product`            |
+| `AppleAppStoreReviews`       | `apple_app_store_reviews`       | `/api/apple/app-store/reviews`            |
+| `WebFetch`                   | `web_fetch`                     | `POST /api/web/fetch`                     |
+| `WebScreenshot`              | `web_screenshot`                | `POST /api/web/screenshot`                |
+| `GoogleImages`               | `google_images`                 | `/api/google/images`                      |
+| `GoogleGemini`               | `google_gemini`                 | `/api/google/gemini`                      |
+| `GoogleShoppingMerchantUrls` | `google_shopping_merchant_urls` | `POST /api/google/shopping/merchant-urls` |
+| `GoogleJobs`                 | `google_jobs`                   | `/api/google/jobs`                        |
+| `IndeedSearch`               | `indeed_search`                 | `/api/indeed/search`                      |
+| `GlassdoorSearch`            | `glassdoor_search`              | `/api/glassdoor/search`                   |
+| `AshbySearch`                | `ashby_search`                  | `/api/ashby/search`                       |
+| `ZipRecruiterSearch`         | `ziprecruiter_search`           | `/api/ziprecruiter/search`                |
+| `LevelsSearch`               | `levels_search`                 | `/api/levels/search`                      |
+| `BingImages`                 | `bing_images`                   | `/api/bing/images`                        |
+| `BingShopping`               | `bing_shopping`                 | `/api/bing/shopping`                      |
+| `BingProduct`                | `bing_product`                  | `/api/bing/product`                       |
+| `BraveSearch`                | `brave_search`                  | `/api/brave/search`                       |
+| `BraveAiMode`                | `brave_ai_mode`                 | `/api/brave/ai-mode`                      |
+| `BaiduSearch`                | `baidu_search`                  | `/api/baidu/search`                       |
+| `YandexSearch`               | `yandex_search`                 | `/api/yandex/search`                      |
+| `YandexImages`               | `yandex_images`                 | `/api/yandex/images`                      |
+| `NaverSearch`                | `naver_search`                  | `/api/naver/search`                       |
+| `NaverAiOverview`            | `naver_ai_overview`             | `/api/naver/ai-overview`                  |
+| `YahooSearch`                | `yahoo_search`                  | `/api/yahoo/search`                       |
+| `YahooImages`                | `yahoo_images`                  | `/api/yahoo/images`                       |
+| `YelpPlace`                  | `yelp_place`                    | `/api/yelp/place`                         |
+| `AirbnbSearch`               | `airbnb_search`                 | `/api/airbnb/search`                      |
+| `YouTubeSearch`              | `youtube_search`                | `/api/youtube/search`                     |
+| `YouTubeChannel`             | `youtube_channel`               | `/api/youtube/channel`                    |
+| `InstagramSearchPopular`     | `instagram_search_popular`      | `/api/instagram/search-popular`           |
+| `InstagramProfile`           | `instagram_profile`             | `/api/instagram/profile`                  |
+| `InstagramPosts`             | `instagram_posts`               | `/api/instagram/posts`                    |
+| `InstagramPost`              | `instagram_post`                | `/api/instagram/post`                     |
+| `InstagramProfilePostCount`  | `instagram_profile_post_count`  | `/api/instagram/profile-post-count`       |
+| `InstagramEmbed`             | `instagram_embed`               | `/api/instagram/embed`                    |
+| `TikTokProfile`              | `tiktok_profile`                | `/api/tiktok/profile`                     |
+| `TikTokVideo`                | `tiktok_video`                  | `/api/tiktok/video`                       |
+| `TikTokTranscript`           | `tiktok_transcript`             | `/api/tiktok/transcript`                  |
+| `TikTokSearchSuggestions`    | `tiktok_search_suggestions`     | `/api/tiktok/search-suggestions`          |
+| `TikTokUserLive`             | `tiktok_user_live`              | `/api/tiktok/user-live`                   |
+| `TikTokLive`                 | `tiktok_live`                   | `/api/tiktok/live`                        |
+| `TikTokSong`                 | `tiktok_song`                   | `/api/tiktok/song`                        |
+| `TikTokProfileVideos`        | `tiktok_profile_videos`         | `/api/tiktok/profile-videos`              |
+| `TikTokComments`             | `tiktok_comments`               | `/api/tiktok/comments`                    |
+| `TikTokCommentReplies`       | `tiktok_comment_replies`        | `/api/tiktok/comment-replies`             |
+| `TikTokFollowing`            | `tiktok_following`              | `/api/tiktok/following`                   |
+| `TikTokFollowers`            | `tiktok_followers`              | `/api/tiktok/followers`                   |
+| `TikTokSearchKeyword`        | `tiktok_search_keyword`         | `/api/tiktok/search-keyword`              |
+| `TikTokSearchTop`            | `tiktok_search_top`             | `/api/tiktok/search-top`                  |
+| `TikTokSearchHashtag`        | `tiktok_search_hashtag`         | `/api/tiktok/search-hashtag`              |
+| `TikTokSongVideos`           | `tiktok_song_videos`            | `/api/tiktok/song-videos`                 |
+| `TikTokTrendingFeed`         | `tiktok_trending_feed`          | `/api/tiktok/trending-feed`               |
+| `TikTokCollectionVideos`     | `tiktok_collection_videos`      | `/api/tiktok/collection-videos`           |
+| `AmazonSearch`               | `amazon_search`                 | `/api/amazon/search`                      |
+| `AmazonProduct`              | `amazon_product`                | `/api/amazon/product`                     |
+| `AmazonAutocomplete`         | `amazon_autocomplete`           | `/api/amazon/autocomplete`                |
+| `AmazonFeaturedReviews`      | `amazon_featured_reviews`       | `/api/amazon/featured-reviews`            |
+| `AmazonMediaReviews`         | `amazon_media_reviews`          | `/api/amazon/media-reviews`               |
+| `CopilotChatCompletions`     | `copilot_chat_completions`      | `POST /api/copilot/chat/completions`      |
+| `EbaySearch`                 | `ebay_search`                   | `/api/ebay/search`                        |
+| `EbayProduct`                | `ebay_product`                  | `/api/ebay/product`                       |
+| `EbaySeller`                 | `ebay_seller`                   | `/api/ebay/seller`                        |
+| `XProfile`                   | `x_profile`                     | `/api/x/profile`                          |
+| `XPost`                      | `x_post`                        | `/api/x/post`                             |
+| `XUserPosts`                 | `x_user_posts`                  | `/api/x/user-posts`                       |
+| `XCommunityPosts`            | `x_community_posts`             | `/api/x/community-posts`                  |
+| `XCommunity`                 | `x_community`                   | `/api/x/community`                        |
+| `EventbriteSearch`           | `eventbrite_search`             | `/api/eventbrite/search`                  |
+| `WalmartSearch`              | `walmart_search`                | `/api/walmart/search`                     |
+| `WalmartProduct`             | `walmart_product`               | `/api/walmart/product`                    |
+| `HomeDepotSearch`            | `homedepot_search`              | `/api/homedepot/search`                   |
+| `HomeDepotProduct`           | `homedepot_product`             | `/api/homedepot/product`                  |
+| `TargetSearch`               | `target_search`                 | `/api/target/search`                      |
+| `TargetProduct`              | `target_product`                | `/api/target/product`                     |
+| `EtsySearch`                 | `etsy_search`                   | `/api/etsy/search`                        |
+| `EtsyProduct`                | `etsy_product`                  | `/api/etsy/product`                       |
+| `BestBuySearch`              | `bestbuy_search`                | `/api/bestbuy/search`                     |
+| `BestBuyProduct`             | `bestbuy_product`               | `/api/bestbuy/product`                    |
+| `WayfairSearch`              | `wayfair_search`                | `/api/wayfair/search`                     |
+| `WayfairProduct`             | `wayfair_product`               | `/api/wayfair/product`                    |
+| `AliExpressSearch`           | `aliexpress_search`             | `/api/aliexpress/search`                  |
+| `AliExpressProduct`          | `aliexpress_product`            | `/api/aliexpress/product`                 |
+| `KrogerSearch`               | `kroger_search`                 | `/api/kroger/search`                      |
+| `KrogerProduct`              | `kroger_product`                | `/api/kroger/product`                     |
+| `SproutsSearch`              | `sprouts_search`                | `/api/sprouts/search`                     |
+| `SproutsProduct`             | `sprouts_product`               | `/api/sprouts/product`                    |
+| `WholeFoodsSearch`           | `wholefoods_search`             | `/api/wholefoods/search`                  |
+| `WholeFoodsProduct`          | `wholefoods_product`            | `/api/wholefoods/product`                 |
+| `IkeaSearch`                 | `ikea_search`                   | `/api/ikea/search`                        |
+| `IkeaProduct`                | `ikea_product`                  | `/api/ikea/product`                       |
+| `ZillowSearch`               | `zillow_search`                 | `/api/zillow/search`                      |
+| `ZillowProperty`             | `zillow_property`               | `/api/zillow/property`                    |
+| `ZillowLocations`            | `zillow_locations`              | `/api/zillow/locations`                   |
+| `RedfinSearch`               | `redfin_search`                 | `/api/redfin/search`                      |
+| `RedfinProperty`             | `redfin_property`               | `/api/redfin/property`                    |
+| `RealtorSearch`              | `realtor_search`                | `/api/realtor/search`                     |
+| `RealtorProperty`            | `realtor_property`              | `/api/realtor/property`                   |
+| `ApartmentsSearch`           | `apartments_search`             | `/api/apartments/search`                  |
+| `ApartmentsProperty`         | `apartments_property`           | `/api/apartments/property`                |
+| `HomesSearch`                | `homes_search`                  | `/api/homes/search`                       |
+| `HomesProperty`              | `homes_property`                | `/api/homes/property`                     |
+| `FacebookSearchPages`        | `facebook_search_pages`         | `/api/facebook/search-pages`              |
+| `FacebookSearchProfiles`     | `facebook_search_profiles`      | `/api/facebook/search-profiles`           |
+| `FacebookHashtagPosts`       | `facebook_hashtag_posts`        | `/api/facebook/hashtag-posts`             |
+| `FacebookPost`               | `facebook_post`                 | `/api/facebook/post`                      |
+| `FacebookPagePosts`          | `facebook_page_posts`           | `/api/facebook/page-posts`                |
+| `FacebookMarketplaceBrowse`  | `facebook_marketplace_browse`   | `/api/facebook/marketplace-browse`        |
+| `FacebookReel`               | `facebook_reel`                 | `/api/facebook/reel`                      |
+
+Version 0.3.0 removed `GoogleMapsWebResults` (`google_maps_web_results`, `/api/google/maps/web`),
+which the v3 API no longer serves.
 
 `num` on `GoogleSearch` and `GoogleAiOverview` accepts 1 to 10, the most Google returns on one page.
-Use `start` to page further.
+Use `start` to page further, or pass a returned `page_token` alone:
+`new GoogleSearch({ page_token })`. The token already carries the original search parameters.
 
-## Fetch (Alpha)
+Continuation tokens such as `page_token`, `next_page_token`, and `continuation_token` must be
+reused with the same endpoint. Where the API requires it (YouTube, Zillow locations, Amazon media
+reviews, Google Search), send the token without the original search parameters.
 
-`WebFetch` renders a public web page in a fresh browser and returns it as Markdown, HTML, plain text,
-or a full-page PNG screenshot encoded as base64.
+## Chat endpoints
+
+`CopilotChatCompletions` and `GoogleGemini` return a completed text reply; streaming is not supported.
 
 ```typescript
-import { WebFetch, scrape } from "litescrape-sdk";
+import { CopilotChatCompletions, scrape } from "litescrape-sdk";
 
 const [result] = await scrape([
-  new WebFetch({ url: "https://example.com", respond_with: "markdown", target_selector: "article" }),
+  new CopilotChatCompletions({
+    messages: [{ role: "user", content: "What is the weather near me right now?" }],
+    country: "US",
+    state: "CA",
+  }),
 ]);
-const page = result.raiseForError();
-console.log(page.title, page.status_code);
-console.log(page.content);
+console.log(result.raiseForError());
 ```
 
-`status_code` is the status the site returned. A rendered 404 page is still a successful, billed
-capture, so check it before using `content`. Options: `respond_with`, `target_selector`,
-`remove_selector`, `wait_for_selector`, `wait_until`, `page_timeout`, `locale`, `user_agent`,
-`with_links`, `with_images`, `with_iframe` and `with_shadow_dom`.
+Messages end with a `user` message, total at most 32,000 characters, and `state` requires
+`country: "US"`. For Gemini, set `continuable: true` and send the returned
+`subsequent_request_token` with the next `prompt`.
+
+## Fetch and screenshots (Alpha)
+
+`WebFetch` renders a public web page and returns its content as Markdown, HTML, plain text, or front
+matter. `WebScreenshot` returns a base64 PNG in `screenshot_base64`; set `full_page: true` for the
+whole page.
+
+```typescript
+import { WebFetch, WebScreenshot, scrape } from "litescrape-sdk";
+
+const [page, shot] = await scrape([
+  new WebFetch({
+    url: "https://example.com",
+    respond_with: "markdown",
+    target_selector: ["main", "article"],
+  }),
+  new WebScreenshot({ url: "https://example.com", viewport: { width: 1440, height: 900 } }),
+]);
+console.log(page.raiseForError().content);
+```
+
+`respond_with` accepts `content` (default), `markdown`, `html`, `text`, or `frontmatter`, or a `+`
+combination such as `markdown+frontmatter`. Version 0.3.0 follows the v3 contract: `wait_until`,
+`with_links`, and `with_images` were replaced by `respond_timing`, `retain_links`, and
+`retain_images`, and screenshots moved to `WebScreenshot`. Selectors accept one selector or a list of
+up to 16. Both endpoints also accept `set_cookies`, `inject_page_script`, `inject_frame_script`,
+`viewport`, `referer`, `assert_status_code`, `robots_txt`, `remove_overlay`, `detach_invisibles`,
+`user_agent`, `locale`, and `page_timeout`. A rendered error page is still a successful, billed
+capture unless you set `assert_status_code`.
 
 ## Store APIs (Alpha)
 
@@ -284,9 +433,11 @@ npm run test:package
 ```
 
 `npm run format` formats the source. Tests use local mock transports and a loopback HTTP server;
-they require no API key or paid requests. The tests include all 35 endpoint allowlists, the Python
-SDK's 547 Store boundary cases, recovery/idempotency scenarios, cancellation, ESM/CommonJS consumers,
-and positive/negative TypeScript type checks. CI runs on Linux and Windows, including Node 22.13,
+they require no API key or paid requests. The tests include all 139 endpoint allowlists and documented
+examples from the v3 OpenAPI contract, the Python SDK's 547 Store boundary cases,
+recovery/idempotency scenarios, cancellation, ESM/CommonJS consumers, and positive/negative
+TypeScript type checks. Refresh the catalog fixtures with
+`node scripts/import-v3-catalog.mjs https://api.litescrape.com/api/openapi.json`. CI runs on Linux and Windows, including Node 22.13,
 22, 24, and 26. The package smoke test installs the tarball into a fresh consumer without build scripts.
 
 Update both `package.json` and `src/version.ts` for a release; regenerate the lockfile. A `v*` tag

@@ -289,3 +289,31 @@ test("batch failures and malformed job envelopes produce per-item errors", async
     assert.ok(result.error instanceof ErrorClass);
   }
 });
+
+test("batch submissions send native JSON for structured routes and scalars otherwise", async (t) => {
+  const api = mockApi();
+  const { handler } = batchBackend(api);
+  const bodies = [];
+  api.handle = async (request) => {
+    if (request.method === "POST") bodies.push([new URL(request.url).pathname, await request.clone().json()]);
+    return handler(request);
+  };
+  const results = await scrape(
+    [
+      {
+        endpoint: "google_shopping_merchant_urls",
+        products: [{ headline_offer_docid: "1", merchant: "Target" }],
+      },
+      { endpoint: "levels_search", q: "x", limit: 5, companies: ["openai"] },
+    ],
+    { ...api.options, batched: true, cachePath: cachePath(t), concurrency: 1 },
+  );
+  assert.ok(results.every((result) => result.ok));
+  assert.deepEqual(bodies, [
+    [
+      "/api/google/shopping/merchant-urls/async",
+      { products: [{ headline_offer_docid: "1", merchant: "Target" }] },
+    ],
+    ["/api/levels/search/async", { q: "x", limit: "5", companies: '["openai"]' }],
+  ]);
+});
